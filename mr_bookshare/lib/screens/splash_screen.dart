@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:mr_bookshare/Route/const.dart';
 
 
 class SplashScreen extends StatefulWidget {
@@ -30,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Column(
           children: [
             const SizedBox(height: 60,),
-            const Text('Yarmouk University',style:  TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
+            // const Text('Yarmouk University',style:  TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
             const SizedBox(height: 20,),
             Center(
               child: SizedBox(
@@ -40,13 +41,14 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
             ),
             const SizedBox(height: 20,),
-            const Text('Mr.BookShare',style:  TextStyle(fontSize: 30,),),
+            const Text('Mr.BookShare',style:  TextStyle(fontSize: 30,),), //should be animated
              const SizedBox(height: 250,),
             RaisedButton(
               color: Colors.black12,
                 child: Text('START',style: TextStyle(color: Colors.white),),
-
-                onPressed: (){}
+                onPressed: (){
+                Navigator.of(context).pushNamed(homeScreen);
+                }
             )
 
           ],

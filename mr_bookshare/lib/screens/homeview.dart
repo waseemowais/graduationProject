@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -54,7 +56,7 @@ class Analytics extends StatelessWidget {
             height: 40,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 8,bottom: 2),
+            padding: const EdgeInsets.only(left: 8, bottom: 2),
             child: Row(
               children: const [
                 Text('Faculteis',
@@ -65,12 +67,10 @@ class Analytics extends StatelessWidget {
               ],
             ),
           ),
-
           Expanded(
             child: GridView.count(
               crossAxisCount: 2,
               childAspectRatio: 1,
-
               mainAxisSpacing: 10,
               shrinkWrap: true,
               children: [
@@ -82,7 +82,7 @@ class Analytics extends StatelessWidget {
                         text: 'Medicin',
                         textarabic: 'الطب')),
                 InkWell(
-                  onTap: (){},
+                  onTap: () {},
                   child: const DashboardCard(
                       color: Color(0xff069e79),
                       icon: Icons.medical_services_outlined,
@@ -90,7 +90,7 @@ class Analytics extends StatelessWidget {
                       textarabic: 'الطب'),
                 ),
                 InkWell(
-                  onTap: (){},
+                  onTap: () {},
                   child: const DashboardCard(
                       color: Color(0xff069e79),
                       icon: Icons.medical_services_outlined,
