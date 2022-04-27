@@ -21,10 +21,10 @@ class DashboardCard extends StatelessWidget {
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(text,style: const TextStyle(fontSize: 25,color: Colors.white),),
-                  Text(textarabic,style: const TextStyle(fontSize: 15,color: Colors.white),),
+                  Text(text,style: const TextStyle(fontSize: 25,color:Color(0xff069e79)),),
+                  Text(textarabic,style: const TextStyle(fontSize: 15,color: Color(0xff069e79)),),
                   SizedBox(width: 20,),
-                  Icon(icon,color: Colors.white,size: 40,),
+                  Icon(icon,color:Color(0xff069e79),size: 40,),
                 ],
               ),
             ],

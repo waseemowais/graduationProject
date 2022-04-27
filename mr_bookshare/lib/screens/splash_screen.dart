@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
 
@@ -17,46 +16,58 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Stack(children: [
         Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage('assets/images/yarmouk-background.jpg'),
-                  fit: BoxFit.cover),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.black.withOpacity(0.0)),
-              ),
-            )),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.bottomRight,
+                end: Alignment.topCenter,
+                colors: [Color(0xff069e79),Color(0xff069e79),Colors.white30],
+              )),
+        ),
         Column(
           children: [
-            const SizedBox(height: 60,),
+            const SizedBox(
+              height: 60,
+            ),
             // const Text('Yarmouk University',style:  TextStyle(fontSize: 30,fontWeight: FontWeight.bold)),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 60,
+            ),
             Center(
               child: SizedBox(
                 height: 200,
-                  width: 200,
-                  child: Image.asset('assets/images/Yarmouk-logo.png'),
+                width: 200,
+                child: Image.asset('assets/images/Yarmouk-logo.png'),
               ),
             ),
-            const SizedBox(height: 20,),
-            const Text('Mr.BookShare',style:  TextStyle(fontSize: 30,),), //should be animated
-             const SizedBox(height: 250,),
+            const SizedBox(
+              height: 20,
+            ),
+            const Text(
+              'Mr.BookShare',
+              style: TextStyle(
+                fontSize: 30,
+                color: Colors.white
+              ),
+            ),
+            //should be animated
+            const SizedBox(
+              height: 250,
+            ),
             RaisedButton(
-              color: Colors.black12,
-                child: Text('START',style: TextStyle(color: Colors.white),),
-                onPressed: (){
-                Navigator.of(context).pushNamed(homeScreen);
-                }
-            )
-
+                color: Colors.white,
+                child: Text(
+                  'START',
+                  style: TextStyle(
+                    color: Color(0xff069e79),
+                    fontWeight: FontWeight.bold
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pushNamed(homeScreen);
+                })
           ],
         )
       ]),
     );
   }
 }
-
-
-

@@ -2,131 +2,205 @@
 
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
+import 'package:mr_bookshare/component/informationview.dart';
 
-class Analytics extends StatelessWidget {
-  const Analytics({Key? key}) : super(key: key);
 
+class HomeView extends StatefulWidget {
+  const HomeView({Key? key}) : super(key: key);
+
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Padding(
-      padding: EdgeInsets.only(left: 20, top: 50, right: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      backgroundColor: const Color(0xff069e79),
+      appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: Colors.white,
+        actions: [IconButton(
+          icon: const Icon(Icons.logout,color:Color(0xff069e79) ,),
+          onPressed: () {
+            Navigator.of(context).pushNamed(splashScreen);
+          },
+        ),],
+        leading: InkWell(
+          onTap: (){
+            Navigator.of(context).pushNamed(profileScreen);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+              width: MediaQuery.of(context).size.width/4,
+              height: MediaQuery.of(context).size.width/4,
+              decoration: BoxDecoration(
+                  border: Border.all(color:Color(0xff069e79),width:3),
+                  shape: BoxShape.circle,
+                  color: Color(0xff069e79),
+                  image: const DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage('https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
+                  )
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: Stack(
+          alignment: Alignment.center,
+          children: [
+        CustomPaint(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+          ),
+          painter: Header(),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: const [
-              Icon(Icons.menu),
-              Icon(Icons.person_pin),
+              Text(
+                'Hello Waseem,',
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Color(0xff069e79),
+                    fontWeight: FontWeight.bold),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                'Find a Course you want to learn',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xff069e79),
+                ),
+              )
             ],
           ),
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Hello Waseem,',
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Color(0xff069e79),
-                      fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Find a Course you want to learn',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Color(0xff069e79),
-                  ),
-                )
-              ],
+        ),
+        SizedBox(
+          height: 300,
+        ),
+        Column(
+          children: [
+            SizedBox(
+              height: 200,
             ),
-          ),
-          SizedBox(
-            height: 40,
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 2),
-            child: Row(
-              children: const [
-                Text('Faculteis',
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Color(0xff069e79),
-                        fontWeight: FontWeight.bold))
-              ],
+            Padding(
+              padding: const EdgeInsets.only(left: 8, bottom: 2),
+              child: Row(
+                children: const [
+                  Text('Faculteis',
+                      style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold))
+                ],
+              ),
             ),
-          ),
-          Expanded(
-            child: GridView.count(
-              crossAxisCount: 2,
-              childAspectRatio: 1,
-              mainAxisSpacing: 10,
-              shrinkWrap: true,
-              children: [
-                InkWell(
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                shrinkWrap: true,
+                children: [
+                  InkWell(
                     onTap: () {},
                     child: const DashboardCard(
-                        color: Color(0xff069e79),
+                        color: Colors.white,
                         icon: Icons.medical_services_outlined,
                         text: 'Medicin',
-                        textarabic: 'الطب')),
-                InkWell(
-                  onTap: () {},
-                  child: const DashboardCard(
-                      color: Color(0xff069e79),
-                      icon: Icons.medical_services_outlined,
-                      text: 'Medicin',
-                      textarabic: 'الطب'),
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: const DashboardCard(
-                      color: Color(0xff069e79),
-                      icon: Icons.medical_services_outlined,
-                      text: 'Medicin',
-                      textarabic: 'الطب'),
-                ),
-                DashboardCard(
-                    color: Color(0xff069e79),
-                    icon: Icons.medical_services_outlined,
-                    text: 'Medicin',
-                    textarabic: 'الطب'),
-                DashboardCard(
-                    color: Color(0xff069e79),
-                    icon: Icons.medical_services_outlined,
-                    text: 'Medicin',
-                    textarabic: 'الطب'),
-                DashboardCard(
-                    color: Color(0xff069e79),
-                    icon: Icons.medical_services_outlined,
-                    text: 'Medicin',
-                    textarabic: 'الطب'),
-                DashboardCard(
-                    color: Color(0xff069e79),
-                    icon: Icons.medical_services_outlined,
-                    text: 'Medicin',
-                    textarabic: 'الطب'),
-                DashboardCard(
-                    color: Color(0xff069e79),
-                    icon: Icons.medical_services_outlined,
-                    text: 'Medicin',
-                    textarabic: 'الطب'),
-              ],
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: const DashboardCard(
+                        color: Colors.white,
+                        icon: Icons.medical_services_outlined,
+                        text: 'Medicin',
+                        textarabic: 'الطب'),
+                  ),
+                ],
+              ),
             ),
-          )
-        ],
-      ),
-    ));
+          ],
+        )
+      ]),
+    );
   }
+}
+
+class Header extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()..color = Colors.white;
+    Path path = Path()
+      ..relativeLineTo(0, 150)
+      ..quadraticBezierTo(size.width / 2, 225, size.width, 150)
+      ..relativeLineTo(0, -150)
+      ..close();
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

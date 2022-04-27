@@ -2,7 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/screens/editprofile_screen.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
+import 'package:mr_bookshare/screens/profile_screen.dart';
 import 'package:mr_bookshare/screens/splash_screen.dart';
 
 class MyRouter {
@@ -14,7 +16,15 @@ class MyRouter {
         }
       case homeScreen:
         {
-          return _route(Analytics());
+          return _route(HomeView());
+        }
+        case profileScreen:
+        {
+          return _route(ProfileScreen());
+        }
+        case editScreen:
+        {
+          return _route(EditProfile());
         }
       default:
         {
