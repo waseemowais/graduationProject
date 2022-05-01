@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/Route/routerr.dart';
+import 'package:mr_bookshare/screens/Registeration/login.dart';
+import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const Test());
 }
 
 class MyApp extends StatelessWidget {
@@ -32,8 +34,7 @@ class Test extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  const MaterialApp(
-
-      home:  EditProfile(),
+      home:  SignUpScreen(),
     );
   }
 }

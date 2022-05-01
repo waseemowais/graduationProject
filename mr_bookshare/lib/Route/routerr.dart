@@ -7,6 +7,7 @@ import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 import 'package:mr_bookshare/screens/splash_screen.dart';
 
+
 class MyRouter {
   static Route generateRoute(RouteSettings settings) {
     switch (settings.name) {
