@@ -2,6 +2,9 @@
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/screens/Registeration/login.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -40,10 +43,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
               SizedBox(
                 width: 200,
-                child: Image.asset('assets/images/signup logo.jpg'),
+                child: Icon(Icons.person_add,color:  Color(0xff069e79),size: 110,)
               ),
               SizedBox(
-                height: 30,
+                height: 20,
               ),
               SizedBox(
                 width: 350,
@@ -128,12 +131,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 30,
               ),
               RaisedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: LoginScreen()));
+                },
                 child: Text(
                   'SignUp',
                   style: TextStyle(fontSize: 20),
                 ),
-                color: Colors.green,
+                color:  Color(0xff069e79),
                 textColor: Colors.white,
                 padding: EdgeInsets.all(8.0),
               ),
@@ -155,10 +160,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 children: [
                   Text("Already have an account!"),
                   TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: LoginScreen()));
+                      },
                       child: Text(
                         'Login',
-                        style: TextStyle(color: Colors.green,fontSize: 17),
+                        style: TextStyle(color: Color(0xff069e79),fontSize: 17),
                       ))
                 ],
               )

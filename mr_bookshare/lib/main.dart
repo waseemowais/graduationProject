@@ -8,7 +8,7 @@ import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 
 void main() {
-  runApp(const Test());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

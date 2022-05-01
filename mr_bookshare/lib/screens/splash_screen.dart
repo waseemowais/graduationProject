@@ -2,6 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/screens/Registeration/login.dart';
+import 'package:page_transition/page_transition.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -55,15 +57,15 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             RaisedButton(
                 color: Colors.white,
-                child: Text(
+                child: const Text(
                   'START',
-                  style: TextStyle(
+                  style:  TextStyle(
                     color: Color(0xff069e79),
                     fontWeight: FontWeight.bold
                   ),
                 ),
                 onPressed: () {
-                  Navigator.of(context).pushNamed(homeScreen);
+                  Navigator.push(context, PageTransition(type: PageTransitionType.fade,duration:Duration(seconds: 1), child: LoginScreen()));
                 })
           ],
         )

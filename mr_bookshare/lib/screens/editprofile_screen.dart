@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/screens/profile_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 import '../component/informationview.dart';
 
@@ -13,9 +16,20 @@ class _EditProfileState extends State<EditProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: DraggableScrollableSheet(
-        initialChildSize: 1,
-        builder: (_, controller) => Stack(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0.0,
+        leading: Padding(
+          padding: const EdgeInsets.only(top: 5,left: 5),
+          child: InkWell(
+            onTap: (){
+              Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
+            },
+            child: Text('Cancel',style: TextStyle(color:  Color(0xff069e79),fontSize: 15),),
+          ),
+        ),
+      ),
+      body:  Stack(
           alignment: Alignment.center,
           children: [
             Container(
@@ -71,7 +85,7 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                     onTap: () {},
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 17,
                   ),
                   Column(
@@ -79,28 +93,28 @@ class _EditProfileState extends State<EditProfile> {
                       Container(
                         height: 450,
                         width: double.infinity,
-                        margin: EdgeInsets.symmetric(horizontal: 10),
+                        margin: const EdgeInsets.symmetric(horizontal: 10),
                         child: Column(
                           children: [
-                            EditTextView(
+                            const EditTextView(
                               labeltext: 'Name',
                               hint: 'Name',
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
-                            EditTextView(
+                            const EditTextView(
                               labeltext: 'Email',
                               hint: 'Email',
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
-                            EditTextView(
+                            const EditTextView(
                               labeltext: 'Study major',
                               hint: 'Study major',
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 12,
                             ),
                             SizedBox(
@@ -108,11 +122,13 @@ class _EditProfileState extends State<EditProfile> {
                               height: 40,
                               child: RaisedButton(
                                 color: Colors.white,
-                                child: Text(
+                                child: const Text(
                                   'Done',
                                   style: TextStyle(color: Color(0xff069e79)),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
+                                },
                               ),
                             )
                           ],
@@ -125,7 +141,7 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ],
         ),
-      ),
+    
     );
   }
 }

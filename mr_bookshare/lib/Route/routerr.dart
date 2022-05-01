@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/screens/Registeration/login.dart';
+import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
@@ -15,6 +17,14 @@ class MyRouter {
         {
           return _route(SplashScreen());
         }
+        case loginScreen:
+        {
+          return _route(LoginScreen());
+        }
+        case signupScreen:
+        {
+          return _route(SignUpScreen());
+        }
       case homeScreen:
         {
           return _route(HomeView());
@@ -23,7 +33,7 @@ class MyRouter {
         {
           return _route(ProfileScreen());
         }
-        case editScreen:
+        case editprofileScreen:
         {
           return _route(EditProfile());
         }

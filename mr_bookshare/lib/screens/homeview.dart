@@ -7,6 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
 import 'package:mr_bookshare/component/informationview.dart';
+import 'package:mr_bookshare/screens/Registeration/login.dart';
+import 'package:mr_bookshare/screens/profile_screen.dart';
+import 'package:mr_bookshare/screens/splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 
 class HomeView extends StatefulWidget {
@@ -27,12 +31,12 @@ class _HomeViewState extends State<HomeView> {
         actions: [IconButton(
           icon: const Icon(Icons.logout,color:Color(0xff069e79) ,),
           onPressed: () {
-            Navigator.of(context).pushNamed(splashScreen);
+            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: SplashScreen()));
           },
         ),],
         leading: InkWell(
           onTap: (){
-            Navigator.of(context).pushNamed(profileScreen);
+            Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

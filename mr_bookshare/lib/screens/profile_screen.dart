@@ -5,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
+import 'package:mr_bookshare/screens/homeview.dart';
+import 'package:mr_bookshare/screens/splash_screen.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -23,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pushNamed(homeScreen);
+            Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: HomeView()));
           },
         ),
       ),
@@ -113,20 +116,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             'Edit Profile Here',
                             style: TextStyle(color: Colors.white),
                           ),
-                          onPressed: ()=>showModalBottomSheet(
-                            enableDrag: true,
-                            isDismissible: true,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.vertical(
-                                top: Radius.circular(20)
-                              )
-                            ),
-                              context: context,
-                              builder: (context)=>EditProfile()
+                          onPressed: (){
+                            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: EditProfile()));                          }
                           )
                       ),
                     ),
-                  )
                 ],
               ),
             ),
