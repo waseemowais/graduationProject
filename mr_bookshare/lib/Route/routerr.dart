@@ -5,6 +5,7 @@ import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
+import 'package:mr_bookshare/screens/facultydetailsview.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 import 'package:mr_bookshare/screens/splash_screen.dart';
@@ -28,6 +29,10 @@ class MyRouter {
       case homeScreen:
         {
           return _route(HomeView());
+        }
+        case majorScreen:
+        {
+          return _route(MajorScreen());
         }
         case profileScreen:
         {

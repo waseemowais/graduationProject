@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   animated_text_kit: ^4.2.1
   page_transition: ^2.0.5
+  animated_splash_screen: ^1.2.0
 
 
   # The following adds the Cupertino Icons font to your application.

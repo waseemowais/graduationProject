@@ -55,10 +55,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: fullName,
                   decoration: InputDecoration(
                     labelText: 'Full Name',
+                    labelStyle:TextStyle(
+                        color: Color(0xff069e79)
+                    ),
                     hintText: 'Enter your full name',
-                    suffixIcon: Icon(Icons.accessibility_sharp),
+                    suffixIcon: Icon(Icons.person_outlined,color: Color(0xff069e79)),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    enabledBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                   // validator: (value) {
@@ -83,10 +94,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: email,
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    labelStyle:TextStyle(
+                        color: Color(0xff069e79)
+                    ),
                     hintText: 'Enter your Email',
-                    suffixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.email_outlined,color:Color(0xff069e79) ,),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    enabledBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   // validator: (value) {
                   //   if (value!.isEmpty) {
@@ -108,10 +130,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
+                    labelStyle:TextStyle(
+                        color: Color(0xff069e79)
+                    ),
                     hintText: 'Enter your password',
-                    suffixIcon: const Icon(Icons.password),
+                    suffixIcon: const Icon(Icons.password_outlined,color: Color(0xff069e79),),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    enabledBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   // validator: (value) {
                   //   if (value!.isEmpty) {
@@ -132,7 +165,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: LoginScreen()));
+                  Navigator.of(context).pushNamed(loginScreen);
                 },
                 child: Text(
                   'SignUp',
@@ -161,7 +194,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   Text("Already have an account!"),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: LoginScreen()));
+                        Navigator.of(context).pushNamed(loginScreen);
                       },
                       child: Text(
                         'Login',

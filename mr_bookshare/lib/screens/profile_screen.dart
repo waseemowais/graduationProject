@@ -26,7 +26,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: HomeView()));
+            Navigator.of(context).pushNamed(homeScreen);
+
           },
         ),
       ),
@@ -117,7 +118,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             style: TextStyle(color: Colors.white),
                           ),
                           onPressed: (){
-                            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: EditProfile()));                          }
+                            Navigator.of(context).pushNamed(editprofileScreen);
+                          }
                           )
                       ),
                     ),

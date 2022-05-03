@@ -56,11 +56,23 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: email,
                   decoration: InputDecoration(
                     labelText: 'Email',
+                    labelStyle:TextStyle(
+                      color: Color(0xff069e79)
+                    ),
                     hintText: 'Enter your Email',
-                    suffixIcon: Icon(Icons.email),
+                    suffixIcon: Icon(Icons.email_outlined,color: Color(0xff069e79),),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    enabledBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
+
                   // validator: (value) {
                   //   if (value!.isEmpty) {
                   //     return 'Email required';
@@ -81,10 +93,21 @@ class _LoginScreenState extends State<LoginScreen> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
+                    labelStyle:TextStyle(
+                        color: Color(0xff069e79)
+                    ),
                     hintText: 'Enter your password',
-                    suffixIcon: const Icon(Icons.password),
+                    suffixIcon: const Icon(Icons.password_outlined,color: Color(0xff069e79) ,),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20.0)),
+                        borderRadius: BorderRadius.circular(10.0)),
+                    enabledBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    focusedBorder:OutlineInputBorder(
+                      borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
                   ),
                   // validator: (value) {
                   //   if (value!.isEmpty) {
@@ -105,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               RaisedButton(
                 onPressed: () {
-                  Navigator.push(context, PageTransition(type: PageTransitionType.bottomToTop,duration:Duration(seconds: 1), child: HomeView()));
+                  Navigator.of(context).pushNamed(homeScreen);
                 },
                 child: Text(
                   'Login',
@@ -149,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Text("Don't have an account?"),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: SignUpScreen()));
+                        Navigator.of(context).pushNamed(signupScreen);
                       },
                       child: Text(
                         'SignUp',

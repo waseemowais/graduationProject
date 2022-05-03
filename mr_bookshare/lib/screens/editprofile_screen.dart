@@ -23,7 +23,7 @@ class _EditProfileState extends State<EditProfile> {
           padding: const EdgeInsets.only(top: 5,left: 5),
           child: InkWell(
             onTap: (){
-              Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
+              Navigator.of(context).pushNamed(profileScreen);
             },
             child: Text('Cancel',style: TextStyle(color:  Color(0xff069e79),fontSize: 15),),
           ),
@@ -127,7 +127,7 @@ class _EditProfileState extends State<EditProfile> {
                                   style: TextStyle(color: Color(0xff069e79)),
                                 ),
                                 onPressed: () {
-                                  Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
+                                  Navigator.of(context).pushNamed(profileScreen);
                                 },
                               ),
                             )

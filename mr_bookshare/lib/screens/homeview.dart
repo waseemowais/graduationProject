@@ -31,12 +31,12 @@ class _HomeViewState extends State<HomeView> {
         actions: [IconButton(
           icon: const Icon(Icons.logout,color:Color(0xff069e79) ,),
           onPressed: () {
-            Navigator.push(context, PageTransition(type: PageTransitionType.rightToLeft,duration:Duration(seconds: 1), child: SplashScreen()));
+            Navigator.of(context).pushNamed(splashScreen);
           },
         ),],
         leading: InkWell(
           onTap: (){
-            Navigator.push(context, PageTransition(type: PageTransitionType.leftToRight,duration:Duration(seconds: 1), child: ProfileScreen()));
+            Navigator.of(context).pushNamed(profileScreen);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -128,60 +128,14 @@ class _HomeViewState extends State<HomeView> {
                         textarabic: 'الطب'),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).pushNamed(majorScreen);
+                    },
                     child: const DashboardCard(
                         color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: const DashboardCard(
-                        color: Colors.white,
-                        icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
-                        textarabic: 'الطب'),
+                        icon: Icons.computer_outlined,
+                        text: 'IT',
+                        textarabic: 'تكنلوجيا المعلومات'),
                   ),
                 ],
               ),
