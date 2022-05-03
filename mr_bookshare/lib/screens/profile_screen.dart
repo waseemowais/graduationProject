@@ -6,7 +6,7 @@ import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
-import 'package:mr_bookshare/screens/splash_screen.dart';
+import 'Splashes/splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends StatefulWidget {

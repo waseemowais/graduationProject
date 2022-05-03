@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Models/facultymodel.dart';
 import 'package:mr_bookshare/Route/const.dart';
@@ -19,7 +21,6 @@ class _MajorScreenState extends State<MajorScreen> {
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).pushNamed(homeScreen);
-
           },
           icon:Icon( Icons.arrow_back_ios,color:Color(0xff069e79) ,),),
         title: Text('Major',style: TextStyle(color: Color(0xff069e79)),),
@@ -33,7 +34,8 @@ class _MajorScreenState extends State<MajorScreen> {
             return
              View(
                   name: item.name!,
-                  ontap: () {
+                  onTap: () {
+                    Navigator.of(context).pushNamed(subjectsDl);
                   });
           },
         ),
@@ -44,10 +46,10 @@ class _MajorScreenState extends State<MajorScreen> {
 
 //==============================================================================
 class View extends StatelessWidget {
-  const View({Key? key, required this.name, required this.ontap})
+  const View({Key? key, required this.name, required this.onTap})
       : super(key: key);
   final String name;
-  final VoidCallback ontap;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +57,7 @@ class View extends StatelessWidget {
       child: ListTile(
         title: Text(name,style: TextStyle(color:Color(0xff069e79) ),),
         trailing: IconButton(
-          onPressed: ontap,
+          onPressed: onTap,
           icon: const Icon(Icons.arrow_forward_ios_rounded,color: Color(0xff069e79),),
         ),
       ),

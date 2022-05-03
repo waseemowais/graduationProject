@@ -15,8 +15,8 @@ class FacultyModel extends ChangeNotifier {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['id'] = id;
+    data['name'] = name;
 
     return data;
   }

@@ -3,9 +3,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/screens/Registeration/signup.dart';
-import 'package:mr_bookshare/screens/homeview.dart';
-import 'package:page_transition/page_transition.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

@@ -21,14 +21,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _navigatetologin()async{
     await Future.delayed(Duration(seconds: 6),(){});
-    Navigator.of(context).pushNamed(loginScreen);
+    Navigator.of(context).pushNamed(instructions);
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xff069e79),
       body: Stack(children: [
-
         Column(
           children: [
             const SizedBox(

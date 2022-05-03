@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/Registeration/signup.dart';
+import 'package:mr_bookshare/screens/Splashes/instuctions.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
 import 'package:mr_bookshare/screens/facultydetailsview.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'package:mr_bookshare/screens/splash_screen.dart';
+import '../screens/Splashes/splash_screen.dart';
+import 'package:mr_bookshare/screens/subjects_dl.dart';
 
 
 class MyRouter {
@@ -17,6 +19,10 @@ class MyRouter {
       case splashScreen:
         {
           return _route(SplashScreen());
+        }
+        case instructions:
+        {
+          return _route(Instructions());
         }
         case loginScreen:
         {
@@ -41,6 +47,10 @@ class MyRouter {
         case editprofileScreen:
         {
           return _route(EditProfile());
+        }
+        case subjectsDl:
+        {
+          return _route(SubjectsDl());
         }
       default:
         {

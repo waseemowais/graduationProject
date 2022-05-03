@@ -9,7 +9,7 @@ import 'package:mr_bookshare/component/facultyview.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'package:mr_bookshare/screens/splash_screen.dart';
+import 'Splashes/splash_screen.dart';
 import 'package:page_transition/page_transition.dart';
 
 
