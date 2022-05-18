@@ -52,7 +52,7 @@ class SubjectView extends StatelessWidget {
                       writerName,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 20,
+                          fontSize: 15,
                           fontWeight: FontWeight.w500),
                     ),
                     Padding(padding: EdgeInsets.symmetric(vertical: 5)),
