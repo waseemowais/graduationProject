@@ -34,16 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 height: 30,
               ),
-              DefaultTextStyle(
-                style: const TextStyle(fontSize: 30.0, color: Colors.black),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    WavyAnimatedText('Welcome,Login'),
-                  ],
-                  isRepeatingAnimation: true,
-                  onTap: () {},
-                ),
-              ),
+              Text('Welcome, LogIn',style: TextStyle(fontSize: 30,color: Color(0xff069e79)),),
               SizedBox(
                 height: 30,
               ),

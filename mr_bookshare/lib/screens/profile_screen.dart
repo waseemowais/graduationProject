@@ -4,10 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
-import 'package:mr_bookshare/screens/editprofile_screen.dart';
-import 'package:mr_bookshare/screens/homeview.dart';
-import 'Splashes/splash_screen.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);

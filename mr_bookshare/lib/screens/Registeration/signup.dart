@@ -1,10 +1,6 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/screens/Registeration/login.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -27,25 +23,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: Center(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 80,
               ),
-              DefaultTextStyle(
-                style: const TextStyle(fontSize: 30.0, color: Colors.black),
-                child: AnimatedTextKit(
-                  animatedTexts: [
-                    WavyAnimatedText('SignUp'),
-                  ],
-                  isRepeatingAnimation: true,
-                  onTap: () {},
-                ),
-              ),
-
-              SizedBox(
+              const Text('SignUp',style: const TextStyle(fontSize: 30,color: Color(0xff069e79)),),
+              const SizedBox(
                 width: 200,
-                child: Icon(Icons.person_add,color:  Color(0xff069e79),size: 110,)
+                child: const Icon(Icons.app_registration,color:  Color(0xff069e79),size: 110,)
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
@@ -55,11 +41,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: fullName,
                   decoration: InputDecoration(
                     labelText: 'Full Name',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         color: Color(0xff069e79)
                     ),
                     hintText: 'Enter your full name',
-                    suffixIcon: Icon(Icons.person_outlined,color: Color(0xff069e79)),
+                    suffixIcon: const Icon(Icons.person_outlined,color: const Color(0xff069e79)),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10.0),
                     ),
@@ -84,7 +70,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 17,
               ),
               SizedBox(
@@ -94,11 +80,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: email,
                   decoration: InputDecoration(
                     labelText: 'Email',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         color: Color(0xff069e79)
                     ),
                     hintText: 'Enter your Email',
-                    suffixIcon: Icon(Icons.email_outlined,color:Color(0xff069e79) ,),
+                    suffixIcon: const Icon(Icons.email_outlined,color:const Color(0xff069e79) ,),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                     enabledBorder:OutlineInputBorder(
@@ -120,7 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 17,
               ),
               SizedBox(
@@ -130,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Password',
-                    labelStyle:TextStyle(
+                    labelStyle:const TextStyle(
                         color: Color(0xff069e79)
                     ),
                     hintText: 'Enter your password',
@@ -160,43 +146,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   // },
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               RaisedButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(loginScreen);
                 },
-                child: Text(
+                child: const Text(
                   'SignUp',
-                  style: TextStyle(fontSize: 20),
+                  style: const TextStyle(fontSize: 20),
                 ),
-                color:  Color(0xff069e79),
+                color:  const Color(0xff069e79),
                 textColor: Colors.white,
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 6,
               ),
 
-              SizedBox(
+              const SizedBox(
                 width: 290,
-                child: Divider(
+                child: const Divider(
                   thickness: 2,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 14,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Already have an account!"),
+                  const Text("Already have an account!"),
                   TextButton(
                       onPressed: () {
                         Navigator.of(context).pushNamed(loginScreen);
                       },
-                      child: Text(
+                      child: const Text(
                         'Login',
                         style: TextStyle(color: Color(0xff069e79),fontSize: 17),
                       ))

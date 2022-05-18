@@ -4,7 +4,7 @@ import 'package:mr_bookshare/Route/routerr.dart';
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
-import 'package:mr_bookshare/screens/facultydetailsview.dart';
+import 'package:mr_bookshare/screens/major_view.dart';
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 
