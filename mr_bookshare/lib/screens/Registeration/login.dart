@@ -195,22 +195,29 @@ class _LoginScreenState extends State<LoginScreen> {
       if (await ConnectivityService.checkInternetConnectivity()) {
         Loader.showLoadingScreen(context, _keyLoader);
         log('email : ${email.text.trim()} | password : ${password.text.trim()}');
-        var result =
-        await _userService.signIn(email.text.trim(), password.text.trim());
-        Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
-            .pop();
-        if (result == 'No user found for that email.') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('No user found for this email.'),
-          ));
-        } else if (result == 'Wrong password provided for that user.') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('Wrong password provided for this user.'),
-          ));
-        } else {
-          log('uid2 : $result');
-          Navigator.of(context).popAndPushNamed(homeScreen, arguments: result);
+        if(email.text.isEmpty&&password.text.isEmpty){
+          log('wrong');
         }
+        else{
+          var result =
+          await _userService.signIn(email.text.trim(), password.text.trim());
+          Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
+              .pop();
+
+          if (result == 'No user found for that email.') {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('No user found for this email.'),
+            ));
+          } else if (result == 'Wrong password provided for that user.') {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('Wrong password provided for this user.'),
+            ));
+          } else {
+            log('uid2 : $result');
+            Navigator.of(context).popAndPushNamed(homeScreen, arguments: result);
+          }
+        }
+
       } else {
         internetConnectionDialog(context);
       }

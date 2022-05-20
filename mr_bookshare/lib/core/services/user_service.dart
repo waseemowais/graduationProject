@@ -35,7 +35,7 @@ class UserService {
       // add all user data to SharedPerfs
       await addUserDataToPrefs(uid, false);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
+      if (e.code == 'invalid-email') {
         msg = 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
         msg = 'Wrong password provided for that user.';

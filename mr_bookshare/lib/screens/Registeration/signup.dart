@@ -212,25 +212,29 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (await ConnectivityService.checkInternetConnectivity()) {
         Loader.showLoadingScreen(context, _keyLoader);
         log('email : ${email.text.trim()} | password : ${password.text.trim()}');
-        var userValues = HashMap();
-        userValues['email'] = email.text.trim();
-        userValues['fullName'] = fullName.text.trim();
-        userValues['password'] = password.text.trim();
-        var result = await _userService.signUp(userValues);
-        Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
-            .pop();
-        if (result == 'The password provided is too weak.') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('The password provided is too weak.'),
-          ));
-        } else if (result == 'The account already exists for that email.') {
-          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text('The account already exists for that email.'),
-          ));
-        } else {
-          log('uid2 : $result');
-          Navigator.of(context).pushNamed(homeScreen, arguments: result);
+        if(email.text.isEmpty&&password.text.isEmpty&&fullName.text.isEmpty){log('wrong');}
+        else{
+          var userValues = HashMap();
+          userValues['email'] = email.text.trim();
+          userValues['fullName'] = fullName.text.trim();
+          userValues['password'] = password.text.trim();
+          var result = await _userService.signUp(userValues);
+          Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
+              .pop();
+          if (result == 'The password provided is too weak.') {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('The password provided is too weak.'),
+            ));
+          } else if (result == 'The account already exists for that email.') {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('The account already exists for that email.'),
+            ));
+          } else {
+            log('uid2 : $result');
+            Navigator.of(context).pushNamed(homeScreen, arguments: result);
+          }
         }
+
       } else {
         internetConnectionDialog(context);
       }
