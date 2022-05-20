@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Models/facultymodel.dart';
-import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
+import 'package:mr_bookshare/core/Models/facultymodel.dart';
 
 class MajorScreen extends StatefulWidget {
   const MajorScreen({Key? key}) : super(key: key);

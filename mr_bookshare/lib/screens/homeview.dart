@@ -4,13 +4,10 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
-import 'package:mr_bookshare/component/informationview.dart';
-import 'package:mr_bookshare/screens/Registeration/login.dart';
-import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'Splashes/splash_screen.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:mr_bookshare/core/services/user_service.dart';
+
 
 
 class HomeView extends StatefulWidget {
@@ -21,6 +18,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  UserService _userService = UserService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +30,8 @@ class _HomeViewState extends State<HomeView> {
         actions: [IconButton(
           icon: const Icon(Icons.logout,color:Color(0xff069e79) ,),
           onPressed: () {
-            Navigator.of(context).pushNamed(splashScreen);
+            _userService.logout().then((value) => Navigator.of(context).popAndPushNamed(loginScreen));
+
           },
         ),],
         leading: InkWell(

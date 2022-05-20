@@ -4,8 +4,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/component/informationview.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
+
 
 class Instructions extends StatefulWidget {
   const Instructions({Key? key}) : super(key: key);

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
 
 import '../component/informationview.dart';
 

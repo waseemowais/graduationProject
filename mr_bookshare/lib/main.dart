@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/Route/routerr.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
+import 'package:mr_bookshare/Utils/Route/routerr.dart';
+import 'package:mr_bookshare/core/session_manager/session_manager.dart';
+
 
 import 'package:mr_bookshare/test.dart';
 
@@ -12,6 +14,7 @@ import 'package:mr_bookshare/test.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Prefs.init();
   runApp(const MyApp());
 
 }

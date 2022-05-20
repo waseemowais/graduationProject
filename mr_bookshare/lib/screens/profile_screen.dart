@@ -2,7 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
+
 import 'package:mr_bookshare/component/informationview.dart';
 
 class ProfileScreen extends StatefulWidget {

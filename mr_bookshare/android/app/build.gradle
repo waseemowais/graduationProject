@@ -48,8 +48,6 @@ android {
         applicationId "com.example.mr_bookshare"
 
         minSdkVersion 21
-
-        minSdkVersion 20
         multiDexEnabled true
         targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()

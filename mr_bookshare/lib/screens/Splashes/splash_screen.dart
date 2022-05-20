@@ -2,9 +2,8 @@ import 'dart:ui';
 
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Route/const.dart';
-import 'package:mr_bookshare/screens/Registeration/login.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:mr_bookshare/Utils/Route/const.dart';
+
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

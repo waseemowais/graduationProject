@@ -29,13 +29,36 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  animated_text_kit: ^4.2.1
-  page_transition: ^2.0.5
-  animated_splash_screen: ^1.2.0
-  speech_to_text: ^5.5.0
-  highlight_text: ^1.3.0
-  avatar_glow: ^2.0.2
+  animated_text_kit:
+  page_transition:
+  animated_splash_screen:
+  speech_to_text:
+  highlight_text:
+  avatar_glow:
   firebase_core:
+  shared_preferences:
+  flutter_signin_button:
+  cloud_firestore:
+  firebase_auth:
+  intl:
+  uuid:
+  provider:
+  connectivity_plus:
+  flutter_spinkit:
+  firebase_storage:
+  google_sign_in:
+  flutter_facebook_auth:
+  flutter_slidable:
+  status_change:
+  timeline_tile:
+  location:
+  google_maps_flutter:
+  geocoding:
+  http:
+  fl_chart:
+  lottie:
+  image_picker:
+  flutter_masked_text:
 
 
 
