@@ -1,7 +1,11 @@
-
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
+import 'package:highlight_text/highlight_text.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class SpeechScreen extends StatefulWidget {
+  const SpeechScreen({Key? key}) : super(key: key);
+
   @override
   _SpeechScreenState createState() => _SpeechScreenState();
 }
@@ -15,29 +19,29 @@ class _SpeechScreenState extends State<SpeechScreen> {
         fontWeight: FontWeight.bold,
       ),
     ),
-    'voice': HighlightedWord(
-      onTap: () => print('voice'),
+    'ahmed': HighlightedWord(
+      onTap: () => print('ahmed'),
       textStyle: const TextStyle(
         color: Colors.green,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'subscribe': HighlightedWord(
-      onTap: () => print('subscribe'),
-      textStyle: const TextStyle(
-        color: Colors.red,
         fontWeight: FontWeight.bold,
       ),
     ),
     'like': HighlightedWord(
       onTap: () => print('like'),
       textStyle: const TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    'it': HighlightedWord(
+      onTap: () => print('it'),
+      textStyle: const TextStyle(
         color: Colors.blueAccent,
         fontWeight: FontWeight.bold,
       ),
     ),
-    'comment': HighlightedWord(
-      onTap: () => print('comment'),
+    'share': HighlightedWord(
+      onTap: () => print('share'),
       textStyle: const TextStyle(
         color: Colors.green,
         fontWeight: FontWeight.bold,
@@ -45,9 +49,10 @@ class _SpeechScreenState extends State<SpeechScreen> {
     ),
   };
 
-  stt.SpeechToText _speech;
+
+  late stt.SpeechToText _speech;
   bool _isListening = false;
-  String _text = 'Press the button and start speaking';
+  String _text = 'Press';
   double _confidence = 1.0;
 
   @override
@@ -60,7 +65,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Confidence: ${(_confidence * 100.0).toStringAsFixed(1)}%'),
+        title: Text('Voice To Text App'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: AvatarGlow(
@@ -83,7 +88,7 @@ class _SpeechScreenState extends State<SpeechScreen> {
             text: _text,
             words: _highlights,
             textStyle: const TextStyle(
-              fontSize: 32.0,
+              fontSize: 50.0,
               color: Colors.black,
               fontWeight: FontWeight.w400,
             ),

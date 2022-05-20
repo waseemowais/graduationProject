@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
@@ -15,54 +16,6 @@ class SubjectsDl extends StatefulWidget {
 
 class _SubjectsDlState extends State<SubjectsDl> {
   final search = TextEditingController();
-
-  final Map<String, HighlightedWord> _highlights = {
-    'flutter': HighlightedWord(
-      onTap: () => print('flutter'),
-      textStyle: const TextStyle(
-        color: Colors.blue,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'voice': HighlightedWord(
-      onTap: () => print('voice'),
-      textStyle: const TextStyle(
-        color: Colors.green,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'subscribe': HighlightedWord(
-      onTap: () => print('subscribe'),
-      textStyle: const TextStyle(
-        color: Colors.red,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'like': HighlightedWord(
-      onTap: () => print('like'),
-      textStyle: const TextStyle(
-        color: Colors.blueAccent,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    'comment': HighlightedWord(
-      onTap: () => print('comment'),
-      textStyle: const TextStyle(
-        color: Colors.green,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-  };
-  stt.SpeechToText _speech;
-  bool _isListening = false;
-  String _text = 'Press the button and start speaking';
-  double _confidence = 1.0;
-
-  @override
-  void initState() {
-    super.initState();
-    _speech = stt.SpeechToText();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,10 +76,9 @@ class _SubjectsDlState extends State<SubjectsDl> {
                               color: Color(0xff069e79),
                               size: 28,
                             ),
-                            suffixIcon: Icon(
-                              Icons.keyboard_voice,
-                              color: Color(0xff069e79),
-                              size: 28,
+                            suffixIcon: IconButton(
+                              icon: Icon(Icons.keyboard_voice_sharp),
+                              onPressed: () {},
                             ),
                             hintStyle: TextStyle(color: Colors.grey),
                             hintText: 'Search your subject',
@@ -190,28 +142,5 @@ class _SubjectsDlState extends State<SubjectsDl> {
         ),
       ),
     );
-  }
-
-  void _listen() async {
-    if (!_isListening) {
-      bool available = await _speech.initialize(
-        onStatus: (val) => print('onStatus: $val'),
-        onError: (val) => print('onError: $val'),
-      );
-      if (available) {
-        setState(() => _isListening = true);
-        _speech.listen(
-          onResult: (val) => setState(() {
-            _text = val.recognizedWords;
-            if (val.hasConfidenceRating && val.confidence > 0) {
-              _confidence = val.confidence;
-            }
-          }),
-        );
-      }
-    } else {
-      setState(() => _isListening = false);
-      _speech.stop();
-    }
   }
 }
