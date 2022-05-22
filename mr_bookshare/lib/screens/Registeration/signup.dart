@@ -1,4 +1,6 @@
 
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:collection';
 import 'dart:developer';
 
@@ -223,13 +225,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
               .pop();
           if (result == 'The password provided is too weak.') {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('The password provided is too weak.'),
+              content: Text('The password provided is too weak(at least 8 numbers).'),
             ));
           } else if (result == 'The account already exists for that email.') {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('The account already exists for that email.'),
             ));
-          } else {
+          }else if(result =="This isn't an email"){
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text("This isn't an email"),
+            ));
+          }
+          else {
             log('uid2 : $result');
             Navigator.of(context).pushNamed(homeScreen, arguments: result);
           }

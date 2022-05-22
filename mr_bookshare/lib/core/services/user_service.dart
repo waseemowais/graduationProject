@@ -35,7 +35,7 @@ class UserService {
       // add all user data to SharedPerfs
       await addUserDataToPrefs(uid, false);
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'invalid-email') {
+      if (e.code == 'user-not-found') {
         msg = 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
         msg = 'Wrong password provided for that user.';
@@ -100,6 +100,8 @@ class UserService {
         msg = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
         msg = 'The account already exists for that email.';
+      }else if(e.code == 'invalid-email'){
+        msg = "This isn't an email";
       }
     } catch (e) {
       msg = '$e';
