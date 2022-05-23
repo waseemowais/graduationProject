@@ -3,6 +3,7 @@ import 'dart:developer';
 class UserModel {
   String? uid;
   String? fullName;
+  String? major;
   String? email;
   String? password;
   bool? loginState;
@@ -20,6 +21,7 @@ class UserModel {
         this.loginState,
         this.state,
         this.imageUrl,
+        this.major
 
       });
 
@@ -31,6 +33,7 @@ class UserModel {
     loginState = json['loginState'];
     state = json['state'];
     imageUrl = json['imageUrl'];
+    major = json['major'];
 
   }
 
@@ -43,6 +46,7 @@ class UserModel {
     data['loginState'] = loginState;
     data['state'] = state;
     data['imageUrl'] = imageUrl;
+    data['major'] = major;
     return data;
   }
 }

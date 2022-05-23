@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -5,9 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 
 import 'package:mr_bookshare/component/informationview.dart';
+import 'package:mr_bookshare/core/Models/user_model.dart';
+import 'package:mr_bookshare/core/Provider/user_provider.dart';
+import 'package:mr_bookshare/core/services/user_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -16,6 +22,8 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> userData = {};
+    userData = UserService().getUserData();
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -23,8 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pushNamed(homeScreen);
-
+            Navigator.of(context).pop();
           },
         ),
       ),
@@ -87,39 +94,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Container(
               child: Column(
                 children: [
-                  const InformationView(
-                    txt: 'owseem owais',
+                  InformationView(
+                    txt: userData['fullName'],
                     icon: Icons.person_outlined,
                   ),
-                  const InformationView(
-                    txt: 'owseemowais@ses.yu.edu.jo',
+                  InformationView(
+                    txt: userData['email'],
                     icon: Icons.email_outlined,
                   ),
-                  const InformationView(
-                    txt: ' Computer Science',
+                  InformationView(
+                    txt: userData['major'],
                     icon: Icons.book_outlined,
-                  ),
-                  const InformationView(
-                    txt: '100 Items',
-                    icon: Icons.share,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(7),
                     child: SizedBox(
-                      width: 500,
-                      height: 40,
-                      child: RaisedButton(
-                          color: Color(0xff069e79),
-                          child: Text(
-                            'Edit Profile Here',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: (){
-                            Navigator.of(context).pushNamed(editprofileScreen);
-                          }
-                          )
-                      ),
-                    ),
+                        width: 500,
+                        height: 40,
+                        child: RaisedButton(
+                            color: Color(0xff069e79),
+                            child: Text(
+                              'Edit Profile Here',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context)
+                                  .pushNamed(editprofileScreen,arguments:userData['uid']);
+                            })),
+                  ),
                 ],
               ),
             ),

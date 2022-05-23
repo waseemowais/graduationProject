@@ -2,13 +2,9 @@ import 'dart:collection';
 import 'dart:developer';
 
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/widgets.dart';
 import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/session_manager/session_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
-
 
 class UserService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -29,7 +25,7 @@ class UserService {
     var uid = '';
     try {
       var user = (await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password))
+              email: email, password: password))
           .user;
       uid = user!.uid;
       // add all user data to SharedPerfs
@@ -55,6 +51,7 @@ class UserService {
       await Prefs.setStringValue('uid', userModel!.uid!);
       await Prefs.setStringValue('fullName', userModel.fullName!);
       await Prefs.setStringValue('email', userModel.email!);
+      await Prefs.setStringValue('major', userModel.major!);
       await Prefs.setStringValue('imageUrl', userModel.imageUrl!);
       await Prefs.setBooleanValue('loginState', userModel.loginState!);
       await Prefs.setBooleanValue('state', userModel.state!);
@@ -64,6 +61,7 @@ class UserService {
       await Prefs.setStringValue('uid', model.uid!);
       await Prefs.setStringValue('fullName', model.fullName!);
       await Prefs.setStringValue('email', model.email!);
+      await Prefs.setStringValue('major', model.major!);
       await Prefs.setStringValue('imageUrl', model.imageUrl!);
       await Prefs.setBooleanValue('loginState', model.loginState!);
       await Prefs.setBooleanValue('state', model.state!);
@@ -80,17 +78,19 @@ class UserService {
     var msg = '';
     try {
       var user = (await _firebaseAuth.createUserWithEmailAndPassword(
-          email: userValues['email'], password: userValues['password']))
+              email: userValues['email'], password: userValues['password']))
           .user;
       var model = UserModel(
-          uid: user!.uid,
-          fullName: userValues['fullName'],
-          email: userValues['email'],
-          password: userValues['password'],
-          imageUrl: userValues['imageUrl'] ?? '',
-          loginState: true,
-          state: true,
-          );
+        uid: user!.uid,
+        fullName: userValues['fullName'],
+        email: userValues['email'],
+        password: userValues['password'],
+        imageUrl: userValues['imageUrl'] ?? '',
+        loginState: true,
+        state: true,
+        major: userValues['major'],
+
+      );
       await addUser(model);
       msg = user.uid;
       // add all user data to SharedPerfs
@@ -100,7 +100,7 @@ class UserService {
         msg = 'The password provided is too weak.';
       } else if (e.code == 'email-already-in-use') {
         msg = 'The account already exists for that email.';
-      }else if(e.code == 'invalid-email'){
+      } else if (e.code == 'invalid-email') {
         msg = "This isn't an email";
       }
     } catch (e) {
@@ -117,7 +117,7 @@ class UserService {
 
   Future<UserModel> getUser(String id) async {
     QuerySnapshot result = await collection.where('uid', isEqualTo: id).get();
-    var data = result.docs![0];
+    var data = result.docs[0];
     Map<String, dynamic> userMap = {};
     userMap['uid'] = data.get('uid');
     userMap['fullName'] = data.get('fullName');
@@ -126,6 +126,7 @@ class UserService {
     userMap['loginState'] = data.get('loginState');
     userMap['state'] = data.get('state');
     userMap['imageUrl'] = data.get('imageUrl');
+    userMap['major'] = data.get('major');
 
     var userModel = UserModel.fromJson(userMap);
     return userModel;
@@ -143,6 +144,7 @@ class UserService {
       userMap['loginState'] = data.get('loginState');
       userMap['state'] = data.get('state');
       userMap['imageUrl'] = data.get('imageUrl');
+      userMap['major'] = data.get('major');
       var userModel = UserModel.fromJson(userMap);
       userDataList.add(userModel);
     }
@@ -154,7 +156,9 @@ class UserService {
     var documentId = snapshot.docs[0];
     await collection
         .doc(documentId.id)
-        .update(model.toJson())
+        .update(model.toJson()).whenComplete(() {
+          Prefs.setBooleanValue('haveAnyChange', true);
+    })
         .catchError((error) {
       handleAuthErrors(error);
     });
@@ -184,7 +188,27 @@ class UserService {
     });
   }
 
+  Map<String, dynamic> getUserData() {
+    var uid = Prefs.getStringValue('uid') ?? '';
+    var fullName = Prefs.getStringValue('fullName') ?? '';
+    var email = Prefs.getStringValue('email') ?? '';
+    var major = Prefs.getStringValue('major') ?? '';
+    var imageUrl = Prefs.getStringValue('imageUrl') ?? '';
+    var loginState = Prefs.getBooleanValue('loginState') ?? '';
+    var state = Prefs.getBooleanValue('state') ?? '';
 
+
+    Map<String, dynamic> result = {};
+    result['uid'] = uid;
+    result['fullName'] = fullName;
+    result['email'] = email;
+    result['imageUrl'] = imageUrl;
+    result['loginState'] = loginState;
+    result['state'] = state;
+    result['major'] = major;
+
+    return result;
+  }
 
   void handleAuthErrors(ArgumentError error) {
     String errorCode = error.message;
@@ -221,7 +245,7 @@ class UserService {
         {
           statusCode = 400;
           msg =
-          "The caller does not have permission to execute the specified operation.";
+              "The caller does not have permission to execute the specified operation.";
           log(msg);
         }
         break;

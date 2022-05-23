@@ -6,59 +6,64 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
+
 import 'package:mr_bookshare/core/services/user_service.dart';
 
-
-
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({Key? key, required this.uid}) : super(key: key);
+  final String uid;
 
   @override
   _HomeViewState createState() => _HomeViewState();
 }
 
 class _HomeViewState extends State<HomeView> {
-
   UserService _userService = UserService();
+
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> userData = {};
+    userData = _userService.getUserData();
     return Scaffold(
       backgroundColor: const Color(0xff069e79),
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.white,
-        actions: [IconButton(
-          icon: const Icon(Icons.logout,color:Color(0xff069e79) ,),
-          onPressed: () {
-            _userService.logout().then((value) => Navigator.of(context).popAndPushNamed(loginScreen));
-
-          },
-        ),],
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.logout,
+              color: Color(0xff069e79),
+            ),
+            onPressed: () {
+              _userService.logout().then((value) =>
+                  Navigator.of(context).popAndPushNamed(loginScreen));
+            },
+          ),
+        ],
         leading: InkWell(
-          onTap: (){
-            Navigator.of(context).pushNamed(profileScreen);
+          onTap: () {
+            Navigator.of(context).pushNamed(profileScreen, arguments: userData);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Container(
-              width: MediaQuery.of(context).size.width/4,
-              height: MediaQuery.of(context).size.width/4,
+              width: MediaQuery.of(context).size.width / 4,
+              height: MediaQuery.of(context).size.width / 4,
               decoration: BoxDecoration(
-                  border: Border.all(color:Color(0xff069e79),width:3),
+                  border: Border.all(color: Color(0xff069e79), width: 3),
                   shape: BoxShape.circle,
                   color: Color(0xff069e79),
                   image: const DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage('https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
-                  )
-              ),
+                    image: NetworkImage(
+                        'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
+                  )),
             ),
           ),
         ),
       ),
-      body: Stack(
-          alignment: Alignment.center,
-          children: [
+      body: Stack(alignment: Alignment.center, children: [
         CustomPaint(
           child: Container(
             width: MediaQuery.of(context).size.width,
@@ -71,9 +76,9 @@ class _HomeViewState extends State<HomeView> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               Text(
-                'Hello Waseem,',
+                'Hello ${userData['fullName']},',
                 style: TextStyle(
                     fontSize: 25,
                     color: Color(0xff069e79),
@@ -129,7 +134,7 @@ class _HomeViewState extends State<HomeView> {
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(majorScreen);
+                      Navigator.of(context).pushNamed(subjectsDl);
                     },
                     child: const DashboardCard(
                         color: Colors.white,

@@ -2,13 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
+import 'package:mr_bookshare/core/Models/user_model.dart';
 
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/Splashes/instuctions.dart';
 import 'package:mr_bookshare/screens/Splashes/splash_screen.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
-import 'package:mr_bookshare/screens/major_view.dart';
+
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 
@@ -36,22 +37,22 @@ class MyRouter {
         }
       case homeScreen:
         {
-          return _route(HomeView());
-        }
-        case majorScreen:
-        {
-          return _route(MajorScreen());
+          final arg = settings.arguments as String;
+          return _route(HomeView(uid: arg,));
         }
         case profileScreen:
         {
+          // final arg = settings.arguments as UserModel;
           return _route(ProfileScreen());
         }
         case editprofileScreen:
         {
-          return _route(EditProfile());
+          final arg = settings.arguments as String;
+          return _route(EditProfile(uid: arg,));
         }
         case subjectsDl:
         {
+          // final arg = settings.arguments as String;
           return _route(SubjectsDl());
         }
       default:

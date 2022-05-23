@@ -23,12 +23,14 @@ class InformationView extends StatelessWidget {
 }
 //=====================edit information========================================
 class EditTextView extends StatelessWidget {
-  const EditTextView({Key? key,required this.hint,required this.labeltext}) : super(key: key);
+  const EditTextView({Key? key,required this.hint,required this.labeltext, required this.controller}) : super(key: key);
   final String hint;
   final String labeltext;
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         label:Text(labeltext,style: TextStyle(color:Colors.white),) ,
         hintText: hint,
@@ -37,6 +39,7 @@ class EditTextView extends StatelessWidget {
         ),
         fillColor: Colors.white30,
         filled: true,
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide.none

@@ -28,6 +28,11 @@ class Prefs {
     return await _prefs.setStringList(key, value);
   }
 
+  static Future<bool> setStringListValue(String key, List<String> value) async {
+    return await _prefs.setStringList(key, value);
+  }
+
+
   // ----------------------------------------
 
   static String? getStringValue(String key) {
