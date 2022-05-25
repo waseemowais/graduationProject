@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ import 'package:mr_bookshare/component/internet_connection_dialog.dart';
 import 'package:mr_bookshare/core/services/connectivity_service.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -19,14 +17,11 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  final UserService  _userService = UserService();
+  final UserService _userService = UserService();
   final email = TextEditingController();
   final password = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey();
-  final GlobalKey<State>_keyLoader=GlobalKey<State>();
-
-
+  final GlobalKey<State> _keyLoader = GlobalKey<State>();
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +37,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 SizedBox(
                   width: 200,
-                  child: Icon(Icons.menu_book,color:  Color(0xff069e79),size: 100,),
+                  child: Icon(
+                    Icons.menu_book,
+                    color: Color(0xff069e79),
+                    size: 100,
+                  ),
                 ),
                 SizedBox(
                   height: 30,
                 ),
-                Text('Welcome, LogIn',style: TextStyle(fontSize: 30,color: Color(0xff069e79)),),
+                Text(
+                  'Welcome, LogIn',
+                  style: TextStyle(fontSize: 30, color: Color(0xff069e79)),
+                ),
                 SizedBox(
                   height: 30,
                 ),
@@ -58,19 +60,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     controller: email,
                     decoration: InputDecoration(
                       labelText: 'Email',
-                      labelStyle:TextStyle(
-                        color: Color(0xff069e79)
-                      ),
+                      labelStyle: TextStyle(color: Color(0xff069e79)),
                       hintText: 'Enter your Email',
-                      suffixIcon: Icon(Icons.email_outlined,color: Color(0xff069e79),),
+                      suffixIcon: Icon(
+                        Icons.email_outlined,
+                        color: Color(0xff069e79),
+                      ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0)),
-                      enabledBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      focusedBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: Color(0xff069e79), width: 2.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
@@ -95,19 +100,22 @@ class _LoginScreenState extends State<LoginScreen> {
                     obscureText: true,
                     decoration: InputDecoration(
                       labelText: 'Password',
-                      labelStyle:TextStyle(
-                          color: Color(0xff069e79)
-                      ),
+                      labelStyle: TextStyle(color: Color(0xff069e79)),
                       hintText: 'Enter your password',
-                      suffixIcon: const Icon(Icons.password_outlined,color: Color(0xff069e79) ,),
+                      suffixIcon: const Icon(
+                        Icons.password_outlined,
+                        color: Color(0xff069e79),
+                      ),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0)),
-                      enabledBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Colors.black12, width: 2.0),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide:
+                            const BorderSide(color: Colors.black12, width: 2.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      focusedBorder:OutlineInputBorder(
-                        borderSide: const BorderSide(color: Color(0xff069e79), width: 2.0),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: Color(0xff069e79), width: 2.0),
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
@@ -136,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Login',
                     style: TextStyle(fontSize: 20),
                   ),
-                  color:  Color(0xff069e79),
+                  color: Color(0xff069e79),
                   textColor: Colors.white,
                   padding: EdgeInsets.all(8.0),
                 ),
@@ -178,7 +186,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           'SignUp',
-                          style: TextStyle(color: Color(0xff069e79),fontSize: 17),
+                          style:
+                              TextStyle(color: Color(0xff069e79), fontSize: 17),
                         ))
                   ],
                 )
@@ -189,38 +198,40 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   //============================================================================
   void validateAndSubmit(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
       if (await ConnectivityService.checkInternetConnectivity()) {
         Loader.showLoadingScreen(context, _keyLoader);
         log('email : ${email.text.trim()} | password : ${password.text.trim()}');
-        if(email.text.isEmpty&&password.text.isEmpty){
-          log('wrong');
+        var result =
+            await _userService.signIn(email.text.trim(), password.text.trim());
+        Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
+            .pop();
+        if (result == 'No user found for that email.') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('No user found for this email.'),
+          ));
+        } else if (result == 'Wrong password provided for that user.') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Wrong password provided for this user.'),
+          ));
+        } else if (result == "This isn't an email") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("This isn't an email"),
+          ));
+        } else if (result.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Enter your email and password'),
+          ));
+        } else {
+          log('uid2 : $result');
+          Navigator.of(context).popAndPushNamed(homeScreen, arguments: result);
         }
-        else{
-          var result =
-          await _userService.signIn(email.text.trim(), password.text.trim());
-          Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
-              .pop();
-
-          if (result == 'No user found for that email.') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('No user found for this email.'),
-            ));
-          } else if (result == 'Wrong password provided for that user.') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('Wrong password provided for this user.'),
-            ));
-          } else {
-            log('uid2 : $result');
-            Navigator.of(context).popAndPushNamed(homeScreen, arguments: result);
-          }
-        }
-
-      } else {
-        internetConnectionDialog(context);
       }
+    } else {
+      internetConnectionDialog(context);
     }
   }
 }

@@ -35,6 +35,8 @@ class UserService {
         msg = 'No user found for that email.';
       } else if (e.code == 'wrong-password') {
         msg = 'Wrong password provided for that user.';
+      }else if (e.code == 'invalid-email') {
+        msg = "This isn't an email";
       }
     }
     if (msg.isEmpty) {
