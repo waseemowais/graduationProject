@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
@@ -20,14 +21,14 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   UserModel? userModel;
   final UserService _userService = UserService();
-  final UserProvider _userProvider= UserProvider();
+  final UserProvider _userProvider = UserProvider();
   final _fullName = TextEditingController();
   final _major = TextEditingController();
   final _password = TextEditingController();
+  final currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
-
     Map<String, dynamic> userData = {};
     userData = UserService().getUserData();
     return FutureBuilder(
@@ -51,17 +52,28 @@ class _EditProfileState extends State<EditProfile> {
               backgroundColor: Colors.white,
               elevation: 0.0,
               leading: Padding(
-                padding: const EdgeInsets.only(top: 5, left: 5),
-                child: InkWell(
-                  onTap: () {
+                padding: const EdgeInsets.only(top: 12, left: 5),
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back,color: Color(0xff069e79),),
+                  onPressed: () {
                     Navigator.of(context).pop();
                   },
-                  child: Text(
-                    'Cancel',
-                    style: TextStyle(color: Color(0xff069e79), fontSize: 15),
-                  ),
                 ),
               ),
+              actions: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 22, right: 5),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Text(
+                      'cancel',
+                      style: TextStyle(color: Color(0xff069e79), fontSize: 16),
+                    ),
+                  ),
+                ),
+              ],
             ),
             body: Stack(
               alignment: Alignment.center,
@@ -152,15 +164,19 @@ class _EditProfileState extends State<EditProfile> {
                                   controller: _major,
                                 ),
                                 const SizedBox(
-                                  height: 12,
+                                  height: 30,
                                 ),
                                 SizedBox(
-                                  width: 400,
+                                  width: 200,
                                   height: 40,
                                   child: RaisedButton(
+                                    shape: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10.0),
+                                        borderSide: BorderSide.none
+                                    ),
                                     color: Colors.white,
                                     child: const Text(
-                                      'Done',
+                                      'Update',
                                       style:
                                           TextStyle(color: Color(0xff069e79)),
                                     ),
@@ -176,13 +192,12 @@ class _EditProfileState extends State<EditProfile> {
                                         email: userModel!.email,
                                       );
                                       await _userProvider
-                                          .updateUser(widget.uid, model)
+                                          .updateUser(widget.uid, model).then((value) => (
+                                          currentUser!.updatePassword(_password.text)
+                                      ))
                                           .whenComplete(() {
                                         simpleDialogToUse(
                                             context, 'Data Update Completed');
-                                      }).whenComplete(() {
-                                        Navigator.of(context)
-                                            .popAndPushNamed(profileScreen,arguments: widget.uid);
                                       });
                                     },
                                   ),

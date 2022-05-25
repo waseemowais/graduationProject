@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 
 class PostModel extends ChangeNotifier {
@@ -23,7 +24,14 @@ class PostModel extends ChangeNotifier {
     data['id'] = id;
     return data;
   }
+  PostModel.fromSnapshot(DocumentSnapshot snapshot) {
+    subjectName = snapshot['subjectName'];
+    writerName = snapshot['writerName'];
+    image = snapshot['image'];
+    id = snapshot['id'];
+  }
 }
+
 
 class PostList {
   List<PostModel> posts;

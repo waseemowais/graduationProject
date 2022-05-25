@@ -20,6 +20,10 @@ class UserService {
     collection = _firestore.collection(collectionName);
   }
 
+  Future<String> getCurrentUID() async {
+    return (await _firebaseAuth.currentUser!).uid;
+  }
+
   Future<String> signIn(String email, String password) async {
     var msg = '';
     var uid = '';

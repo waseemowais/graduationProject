@@ -12,6 +12,7 @@ import 'package:mr_bookshare/screens/editprofile_screen.dart';
 
 import 'package:mr_bookshare/screens/homeview.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
+import 'package:mr_bookshare/screens/search_screen.dart';
 
 import 'package:mr_bookshare/screens/subjects_dl.dart';
 
@@ -55,6 +56,11 @@ class MyRouter {
           // final arg = settings.arguments as String;
           return _route(SubjectsDl());
         }
+        case searchScreen:
+        {
+          return _route(SearchScreen());
+        }
+
       default:
         {
           final arg = settings.name as String;

@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member
 
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
+import 'package:mr_bookshare/core/services/user_service.dart';
 import 'package:provider/provider.dart';
 
 import '../core/Models/postmodel.dart';
@@ -21,43 +24,9 @@ class _SubjectsDlState extends State<SubjectsDl> {
   final TextEditingController _search = TextEditingController();
   PostList? postList;
   PostProvider postProvider = PostProvider();
-  final _firestore = FirebaseFirestore.instance;
   final String collectionName = 'posts';
-  List _allresults =[];
-  late Future resultsLoaded;
+  Future? resultsLoaded;
 
-  @override
-  // ignore: must_call_super
-  void initState() {
-    _search.addListener(_onSearchChanged);
-  }
-
-  @override
-  // ignore: must_call_super
-  void dispose() {
-    _search.removeListener(_onSearchChanged);
-    _search.dispose();
-    super.dispose();
-  }
-
-
-  @override
-  // ignore: must_call_super
-  void didChangedDependencies() {
-    super.didChangeDependencies();
-    resultsLoaded = getUsersSnapshot();
-  }
-
-  _onSearchChanged(){
-    print(_search.text);}
-
-  getUsersSnapshot()async{
-    var data = await _firestore.collection(collectionName).get();
-    setState(() {
-      _allresults = data.docs;
-    });
-    return 'complete';
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +39,7 @@ class _SubjectsDlState extends State<SubjectsDl> {
               Positioned(
                 child: Container(
                   padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-                  height: 175,
+                  height: 100,
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -84,7 +53,7 @@ class _SubjectsDlState extends State<SubjectsDl> {
                   ),
                   child: Column(children: [
                     Row(
-                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         IconButton(
@@ -97,54 +66,25 @@ class _SubjectsDlState extends State<SubjectsDl> {
                           ),
                           color: Colors.white,
                         ),
-                        // Padding(
-                        //   padding: const EdgeInsets.only(
-                        //     top: 13.0, left: 10,),
-                        //   child: Text(
-                        //     widget.name,
-                        //     style: TextStyle(
-                        //         color: Colors.white, fontSize: 20),
-                        //   ),
-                        // )
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(searchScreen);
+                          },
+                          icon: Icon(
+                            Icons.search,
+                            size: 35,
+                          ),
+                          color: Colors.white,
+                        ),
+
+
                       ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     // _buildSearchFld(),
-                    SizedBox(
-                      width: 350,
-                      child: TextFormField(
-                        controller: _search,
-                        decoration: InputDecoration(
-                          fillColor: Colors.white,
-                          filled: true,
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: Color(0xff069e79),
-                            size: 28,
-                          ),
-                          suffixIcon: IconButton(
-                            icon: Icon(Icons.keyboard_voice_sharp),
-                            onPressed: () {},
-                          ),
-                          hintStyle: TextStyle(color: Colors.grey),
-                          hintText: 'Search your subject',
-                          border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0)),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xff069e79), width: 2.0),
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                                color: Color(0xff069e79), width: 2.0),
-                            borderRadius: BorderRadius.circular(25.0),
-                          ),
-                        ),
-                      ),
-                    ),
+
                   ]),
                 ),
               ),
@@ -167,6 +107,9 @@ class _SubjectsDlState extends State<SubjectsDl> {
                     );
                   }
                   postList = data as PostList;
+
+                  // getUsersSnapshot();
+                  // log('$_allResults');
 
                   if (postList!.posts.isEmpty) {
                     return Align(
@@ -195,18 +138,21 @@ class _SubjectsDlState extends State<SubjectsDl> {
                     );
                   }
                   return ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    shrinkWrap: true,
-                    itemCount: postList!.posts.length,
-                    itemBuilder: (ctx, index) {
-                      var item = postList!.posts[index];
-                      return SubjectView(
-                          bookName: item.subjectName!,
-                          writerName: item.writerName!,
-                          image: item.image!,
-                          ontap: () {});
-                    },
-                  );
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: postList!.posts.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        var item = postList!.posts[index];
+                        return SubjectView(
+                            bookName: item.subjectName!,
+                            writerName: item.writerName!,
+                            image: item.image!,
+                            ontap: () {
+                              CustomDialog(
+                                description: 'sasasas',
+                              );
+                            });
+                      });
                 }),
           )
         ],
@@ -214,3 +160,28 @@ class _SubjectsDlState extends State<SubjectsDl> {
     );
   }
 }
+
+// class DataSearch extends SearchDelegate<String> {
+//   @override
+//   List<Widget>? buildActions(BuildContext context) {
+//     return [IconButton(onPressed: () {}, icon: Icon(Icons.clear))];
+//   }
+//
+//   @override
+//   Widget? buildLeading(BuildContext context) {
+//     return IconButton(onPressed: () {
+//       close(context, '');
+//     }, icon: Icon(Icons.arrow_back));
+//   }
+//
+//   @override
+//   Widget buildResults(BuildContext context) {
+//     // TODO: implement buildResults
+//     throw UnimplementedError();
+//   }
+//
+//   @override
+//   Widget buildSuggestions(BuildContext context) {
+//     return Text('Body Search');
+//   }
+// }

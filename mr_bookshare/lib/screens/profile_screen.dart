@@ -1,11 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:math';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-
+import 'dart:convert' as cnv;
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
@@ -20,6 +21,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
+  int randomNumber = Random().nextInt(10);
+
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> userData = {};
@@ -35,64 +39,67 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
       ),
-      body: Stack(alignment: Alignment.center, children: [
-        CustomPaint(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
+      body: RefreshIndicator(
+        onRefresh: () async{
+          refreshList;
+        },
+        child: Stack(alignment: Alignment.center, children: [
+          CustomPaint(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+            painter: Header(),
           ),
-          painter: Header(),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                'Profile',
-                style: TextStyle(
-                  fontSize: 35,
-                  letterSpacing: 1.5,
-                  color: Colors.white,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  'Profile',
+                  style: TextStyle(
+                    fontSize: 35,
+                    letterSpacing: 1.5,
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width / 2,
-              height: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 5),
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
-                  )),
-            )
-          ],
-        ),
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 200, left: 150),
-        //   child: CircleAvatar(
-        //     backgroundColor: const Color(0xff069e79),
-        //     child: IconButton(
-        //       onPressed: () {},
-        //       icon: const Icon(
-        //         Icons.edit,
-        //         color: Colors.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-        Column(
-          children: [
-            const SizedBox(
-              height: 300,
-            ),
-            Container(
-              child: Column(
+              Container(
+                padding: const EdgeInsets.all(10.0),
+                width: MediaQuery.of(context).size.width / 2,
+                height: MediaQuery.of(context).size.width / 2,
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 5),
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    image: const DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
+                    )),
+              )
+            ],
+          ),
+          // Padding(
+          //   padding: const EdgeInsets.only(bottom: 200, left: 150),
+          //   child: CircleAvatar(
+          //     backgroundColor: const Color(0xff069e79),
+          //     child: IconButton(
+          //       onPressed: () {},
+          //       icon: const Icon(
+          //         Icons.edit,
+          //         color: Colors.white,
+          //       ),
+          //     ),
+          //   ),
+          // ),
+          Column(
+            children: [
+              const SizedBox(
+                height: 300,
+              ),
+              Column(
                 children: [
                   InformationView(
                     txt: userData['fullName'],
@@ -124,12 +131,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ],
               ),
-            ),
-          ],
-        ),
-      ]),
+            ],
+          ),
+        ]),
+      ),
     );
   }
+  // Future<void> refreshList() async {
+  //   refreshKey.currentState?.show(atTop: false);
+  //   await Future.delayed(Duration(seconds: 2));
+  //   setState(() {
+  //     randomNumber;
+  //   });
+  // }
 }
 
 class Header extends CustomPainter {
@@ -147,3 +161,4 @@ class Header extends CustomPainter {
   @override
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
+
