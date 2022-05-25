@@ -9,6 +9,7 @@ import '../Models/postmodel.dart';
 class PostService {
   final _firestore = FirebaseFirestore.instance;
   final String collectionName = 'posts';
+  List _allresults =[];
 
   int statusCode = 0;
   String msg = '';
@@ -26,6 +27,7 @@ class PostService {
       log('statusCode : $statusCode , error msg : $msg');
     });
   }
+
 
 
   Future<PostList> getPosts() async {
