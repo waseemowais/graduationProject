@@ -39,102 +39,97 @@ class _ProfileScreenState extends State<ProfileScreen> {
           },
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async{
-          refreshList;
-        },
-        child: Stack(alignment: Alignment.center, children: [
-          CustomPaint(
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-            ),
-            painter: Header(),
+      body: Stack(alignment: Alignment.center, children: [
+        CustomPaint(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(20),
-                child: Text(
-                  'Profile',
-                  style: TextStyle(
-                    fontSize: 35,
-                    letterSpacing: 1.5,
-                    color: Colors.white,
-                  ),
+          painter: Header(),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Text(
+                'Profile',
+                style: TextStyle(
+                  fontSize: 35,
+                  letterSpacing: 1.5,
+                  color: Colors.white,
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.all(10.0),
-                width: MediaQuery.of(context).size.width / 2,
-                height: MediaQuery.of(context).size.width / 2,
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 5),
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    image: const DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
-                    )),
-              )
-            ],
-          ),
-          // Padding(
-          //   padding: const EdgeInsets.only(bottom: 200, left: 150),
-          //   child: CircleAvatar(
-          //     backgroundColor: const Color(0xff069e79),
-          //     child: IconButton(
-          //       onPressed: () {},
-          //       icon: const Icon(
-          //         Icons.edit,
-          //         color: Colors.white,
-          //       ),
-          //     ),
-          //   ),
-          // ),
-          Column(
-            children: [
-              const SizedBox(
-                height: 300,
-              ),
-              Column(
-                children: [
-                  InformationView(
-                    txt: userData['fullName'],
-                    icon: Icons.person_outlined,
-                  ),
-                  InformationView(
-                    txt: userData['email'],
-                    icon: Icons.email_outlined,
-                  ),
-                  InformationView(
-                    txt: userData['major'],
-                    icon: Icons.book_outlined,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(7),
-                    child: SizedBox(
-                        width: 500,
-                        height: 40,
-                        child: RaisedButton(
-                            color: Color(0xff069e79),
-                            child: Text(
-                              'Edit Profile Here',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .pushNamed(editprofileScreen,arguments:userData['uid']);
-                            })),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ]),
-      ),
+            ),
+            Container(
+              padding: const EdgeInsets.all(10.0),
+              width: MediaQuery.of(context).size.width / 2,
+              height: MediaQuery.of(context).size.width / 2,
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.white, width: 5),
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  image: const DecorationImage(
+                    fit: BoxFit.cover,
+                    image: NetworkImage(
+                        'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
+                  )),
+            )
+          ],
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(bottom: 200, left: 150),
+        //   child: CircleAvatar(
+        //     backgroundColor: const Color(0xff069e79),
+        //     child: IconButton(
+        //       onPressed: () {},
+        //       icon: const Icon(
+        //         Icons.edit,
+        //         color: Colors.white,
+        //       ),
+        //     ),
+        //   ),
+        // ),
+        Column(
+          children: [
+            const SizedBox(
+              height: 300,
+            ),
+            Column(
+              children: [
+                InformationView(
+                  txt: userData['fullName'],
+                  icon: Icons.person_outlined,
+                ),
+                InformationView(
+                  txt: userData['email'],
+                  icon: Icons.email_outlined,
+                ),
+                InformationView(
+                  txt: userData['major'],
+                  icon: Icons.book_outlined,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(7),
+                  child: SizedBox(
+                      width: 500,
+                      height: 40,
+                      child: RaisedButton(
+                          color: Color(0xff069e79),
+                          child: Text(
+                            'Edit Profile Here',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context)
+                                .pushNamed(editprofileScreen,arguments:userData['uid']);
+                          })),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ]),
     );
   }
   // Future<void> refreshList() async {
