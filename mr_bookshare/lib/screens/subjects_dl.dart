@@ -8,6 +8,7 @@ import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
+import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../core/Models/postmodel.dart';
@@ -66,6 +67,17 @@ class _SubjectsDlState extends State<SubjectsDl> {
                           ),
                           color: Colors.white,
                         ),
+                        IconButton(
+                          onPressed: () {
+                           showDialog(context: context, builder: (context)=>AddPostDialog());
+                          },
+                          icon: Icon(
+                            Icons.add_circle_outline_sharp,
+                            size: 35,
+                          ),
+                          color: Colors.white,
+                        ),
+
                         IconButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(searchScreen);

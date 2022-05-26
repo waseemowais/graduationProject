@@ -59,6 +59,7 @@ dependencies:
   lottie:
   image_picker:
   flutter_masked_text:
+  file_picker:
 
 
 

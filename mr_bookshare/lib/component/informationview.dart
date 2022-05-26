@@ -48,3 +48,74 @@ class EditTextView extends StatelessWidget {
     );
   }
 }
+//==================================for upload subject==========================
+class SubjectTextFielView extends StatelessWidget {
+  const SubjectTextFielView({Key? key,required this.hint,required this.labeltext, required this.controller}) : super(key: key);
+  final String hint;
+  final String labeltext;
+  final TextEditingController controller;
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+          label:Text(labeltext,style: TextStyle(color:Color(0xff069e79)),) ,
+          hintText: hint,
+          hintStyle: TextStyle(
+              color:Color(0xff069e79)
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+            const BorderSide(color: Colors.black12, width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+                color: Color(0xff069e79), width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none
+          )
+      ),
+    );
+  }
+}
+//==================for Description textfiel====================================
+
+class DescriptionTextField extends StatelessWidget {
+  const DescriptionTextField({Key? key,required this.hint,required this.labeltext, required this.controller}) : super(key: key);
+  final String hint;
+  final String labeltext;
+  final TextEditingController controller;
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      minLines: 2,
+      maxLines: 100,
+      controller: controller,
+      decoration: InputDecoration(
+          label:Text(labeltext,style: TextStyle(color:Color(0xff069e79)),) ,
+          hintText: hint,
+          hintStyle: TextStyle(
+              color:Color(0xff069e79)
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+            const BorderSide(color: Colors.black12, width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(
+                color: Color(0xff069e79), width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+              borderSide: BorderSide.none
+          )
+      ),
+    );
+  }
+}
