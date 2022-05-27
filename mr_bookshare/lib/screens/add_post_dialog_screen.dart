@@ -1,14 +1,24 @@
 
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/component/Button_view_for_dialog.dart';
 import 'package:mr_bookshare/component/informationview.dart';
+import 'package:mr_bookshare/core/Models/postmodel.dart';
+import 'package:mr_bookshare/core/Provider/post_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 class AddPostDialog extends StatelessWidget {
   AddPostDialog({Key? key,}) : super(key: key);
   final _fullName = TextEditingController();
   final _subjectName = TextEditingController();
   final _description = TextEditingController();
+  final _image = TextEditingController();
+  PostProvider _postProvider = PostProvider();
+
   @override
   Widget build(BuildContext context) {
+    // var postProvider = Provider.of<PostProvider>(context,listen: true);
     return Dialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16)
@@ -50,6 +60,8 @@ class AddPostDialog extends StatelessWidget {
                 const SizedBox(height: 10,),
                 SubjectTextFielView(labeltext: 'Subject Name', hint: 'Subject Name', controller: _subjectName,),
                 const SizedBox(height: 10,),
+                SubjectTextFielView(labeltext: 'image', hint: 'image URL', controller: _image,),
+                const SizedBox(height: 10,),
                 DescriptionTextField(labeltext: 'Description', hint: 'Description', controller: _description,),
                 const SizedBox(height: 10,),
                 ButtonWidget(icon: Icons.attach_file, text:'select file', onClicked: (){},),
@@ -63,10 +75,20 @@ class AddPostDialog extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomRight,
                   child:FlatButton(
-                    onPressed: (){
-                      Navigator.pop(context);
+                    onPressed: () async{
+                      var id = Uuid().v4();
+                      var model = PostModel(
+                        id: id,
+                        writerName: _fullName.text,
+                        subjectName: _subjectName.text,
+                        description: _description.text,
+                        image: _image.text,
+                      );
+                      await _postProvider.addPost(model).whenComplete(() {
+                        Navigator.of(context).pop();
+                      });
                     },
-                    child: const Text('Share',style: TextStyle(color: Color(0xff069e79)),),
+                    child:  Text('Share',style: TextStyle(color: Color(0xff069e79)),),
                   ) ,
                 )
               ],

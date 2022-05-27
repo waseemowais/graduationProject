@@ -9,8 +9,6 @@ import '../Models/postmodel.dart';
 class PostService {
   final _firestore = FirebaseFirestore.instance;
   final String collectionName = 'posts';
-  List _allresults =[];
-
   int statusCode = 0;
   String msg = '';
 
@@ -51,6 +49,8 @@ class PostService {
       postMap['writerName'] = item.get('writerName');
       postMap['image'] = item.get('image');
       postMap['id'] = item.get('id');
+      postMap['description'] = item.get('description');
+
 
       postModel = PostModel.fromJson(postMap);
       data.add(postModel);
@@ -59,6 +59,8 @@ class PostService {
     postList = PostList(posts: data);
     return postList;
   }
+
+
 
   Future<void> updatePost(String id, PostModel model) async {
     QuerySnapshot querySnapshot = await _firestore
@@ -95,6 +97,7 @@ class PostService {
     postMap['subjectName'] = querySnapshot.docs[0].get('subjectName');
     postMap['writerName'] = querySnapshot.docs[0].get('writerName');
     postMap['image'] = querySnapshot.docs[0].get('image');
+    postMap['description'] = querySnapshot.docs[0].get('description');
 
     postModel = PostModel.fromJson(postMap);
     return postModel;

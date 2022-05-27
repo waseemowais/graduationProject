@@ -6,14 +6,16 @@ class PostModel extends ChangeNotifier {
   String? writerName;
   String? image;
   String? id;
+  String? description;
 
-  PostModel({this.id, this.subjectName, this.writerName, this.image});
+  PostModel({this.id, this.subjectName, this.writerName, this.image,this.description});
 
   PostModel.fromJson(Map<String, dynamic> json) {
     subjectName = json['subjectName'];
     writerName = json['writerName'];
     image = json['image'];
     id = json['id'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -22,6 +24,7 @@ class PostModel extends ChangeNotifier {
     data['writerName'] = writerName;
     data['image'] = image;
     data['id'] = id;
+    data['description'] = description;
     return data;
   }
   PostModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -29,6 +32,8 @@ class PostModel extends ChangeNotifier {
     writerName = snapshot['writerName'];
     image = snapshot['image'];
     id = snapshot['id'];
+    description = snapshot['description'];
+
   }
 }
 

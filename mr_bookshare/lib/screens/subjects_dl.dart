@@ -27,7 +27,7 @@ class _SubjectsDlState extends State<SubjectsDl> {
   PostProvider postProvider = PostProvider();
   final String collectionName = 'posts';
   Future? resultsLoaded;
-
+  GlobalKey _key = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -149,51 +149,41 @@ class _SubjectsDlState extends State<SubjectsDl> {
                       ),
                     );
                   }
-                  return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: postList!.posts.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        var item = postList!.posts[index];
-                        return SubjectView(
-                            bookName: item.subjectName!,
-                            writerName: item.writerName!,
-                            image: item.image!,
-                            ontap: () {
-                              showDialog(context: context, builder: (context)=>CustomDialog(
-                                description: 'sasasas',
-                              ));
-                            });
-                      });
+                  return RefreshIndicator(
+                    onRefresh: _refresh,
+                    child: Container(
+                      key: _key,
+                      child: ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: postList!.posts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            var item = postList!.posts[index];
+                            return SubjectView(
+                                bookName: item.subjectName!,
+                                writerName: item.writerName!,
+                                image: item.image!,
+                                ontap: () {
+                                  showDialog(context: context, builder: (context)=>CustomDialog(
+                                    description: item.description!,
+                                  ));
+                                });
+                          }),
+                    ),
+                  );
                 }),
           )
         ],
       ),
     );
+
+  }
+  Future<void> _refresh() async {
+    if (mounted) {
+      _key = GlobalKey();
+      setState(() {});
+    }
+    Future.value(null);
   }
 }
 
-// class DataSearch extends SearchDelegate<String> {
-//   @override
-//   List<Widget>? buildActions(BuildContext context) {
-//     return [IconButton(onPressed: () {}, icon: Icon(Icons.clear))];
-//   }
-//
-//   @override
-//   Widget? buildLeading(BuildContext context) {
-//     return IconButton(onPressed: () {
-//       close(context, '');
-//     }, icon: Icon(Icons.arrow_back));
-//   }
-//
-//   @override
-//   Widget buildResults(BuildContext context) {
-//     // TODO: implement buildResults
-//     throw UnimplementedError();
-//   }
-//
-//   @override
-//   Widget buildSuggestions(BuildContext context) {
-//     return Text('Body Search');
-//   }
-// }

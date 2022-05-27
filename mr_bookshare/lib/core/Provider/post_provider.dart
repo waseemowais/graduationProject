@@ -27,15 +27,6 @@ class PostProvider extends ChangeNotifier {
     return await _postService.getPosts();
   }
 
-  // PostModel getPostByIdOffline(String id) {
-  //   var model = offlinePots.posts.singleWhere((element) {
-  //     if (element.id == id) {
-  //       return true;
-  //     }
-  //     return false;
-  //   });
-  //   return model;
-  // }
 
   Future<void> addPost(PostModel model) async {
     await _postService.addPost(model).whenComplete(() {

@@ -2,14 +2,11 @@
 
 import 'dart:math';
 import 'dart:ui';
-import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-import 'dart:convert' as cnv;
 import 'package:mr_bookshare/component/informationview.dart';
-import 'package:mr_bookshare/core/Models/user_model.dart';
-import 'package:mr_bookshare/core/Provider/user_provider.dart';
+
 import 'package:mr_bookshare/core/services/user_service.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -41,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ),
       body: Stack(alignment: Alignment.center, children: [
         CustomPaint(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
           ),
@@ -77,19 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             )
           ],
         ),
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 200, left: 150),
-        //   child: CircleAvatar(
-        //     backgroundColor: const Color(0xff069e79),
-        //     child: IconButton(
-        //       onPressed: () {},
-        //       icon: const Icon(
-        //         Icons.edit,
-        //         color: Colors.white,
-        //       ),
-        //     ),
-        //   ),
-        // ),
         Column(
           children: [
             const SizedBox(
@@ -132,13 +116,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ]),
     );
   }
-  // Future<void> refreshList() async {
-  //   refreshKey.currentState?.show(atTop: false);
-  //   await Future.delayed(Duration(seconds: 2));
-  //   setState(() {
-  //     randomNumber;
-  //   });
-  // }
 }
 
 class Header extends CustomPainter {

@@ -1,13 +1,19 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
-import 'package:mr_bookshare/Utils/Route/const.dart';
+import 'dart:io';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
-
+import 'package:image_picker/image_picker.dart';
 import '../component/informationview.dart';
 import '../core/Models/user_model.dart';
+import '../core/services/fileuploadservice.dart';
 import '../core/services/user_service.dart';
 
 class EditProfile extends StatefulWidget {
@@ -19,6 +25,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final FilesUploadService _filesUploadService = FilesUploadService();
   UserModel? userModel;
   final UserService _userService = UserService();
   final UserProvider _userProvider = UserProvider();
@@ -26,11 +33,20 @@ class _EditProfileState extends State<EditProfile> {
   final _major = TextEditingController();
   final _password = TextEditingController();
   final currentUser = FirebaseAuth.instance.currentUser;
+  ImagePicker picker = ImagePicker();
+
+  File? _image;
+
+  String imageUrl = '';
 
   @override
   Widget build(BuildContext context) {
+
     Map<String, dynamic> userData = {};
     userData = UserService().getUserData();
+    ImageProvider? imageProvider = (userData[imageUrl.isNotEmpty
+        ? NetworkImage(userData[imageUrl])
+        : AssetImage("assets/images/book.gif")]) as ImageProvider<Object>?;
     return FutureBuilder(
         future: _userService.getUser(widget.uid),
         builder: (ctx, snapshot) {
@@ -43,9 +59,6 @@ class _EditProfileState extends State<EditProfile> {
             );
           }
           userModel = data as UserModel;
-          // _fullName.text = userModel!.fullName!;
-          // _password.text = userModel!.password!;
-          // _major.text = userModel!.major!;
 
           return Scaffold(
             appBar: AppBar(
@@ -54,7 +67,10 @@ class _EditProfileState extends State<EditProfile> {
               leading: Padding(
                 padding: const EdgeInsets.only(top: 12, left: 5),
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back,color: Color(0xff069e79),),
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: Color(0xff069e79),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -104,19 +120,14 @@ class _EditProfileState extends State<EditProfile> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Container(
-                        padding: const EdgeInsets.all(10.0),
-                        width: MediaQuery.of(context).size.width / 3,
-                        height: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.white, width: 5),
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                            image: const DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                  'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
-                            )),
+                      Align(
+                        alignment: Alignment.center,
+                        child: CircleAvatar(
+                          radius: 100,
+                          // backgroundColor: Colors.white,
+                          backgroundImage: imageProvider,
+
+                        ),
                       ),
                       const SizedBox(
                         height: 10,
@@ -129,7 +140,18 @@ class _EditProfileState extends State<EditProfile> {
                               fontSize: 20,
                               color: Colors.white),
                         ),
-                        onTap: () {},
+                        onTap: () async {
+                          await chooseImage();
+                          if (_image != null) {
+                            imageUrl = await _filesUploadService
+                                .fileUpload(_image!, 'UsersImage')
+                                .whenComplete(() {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Upload Completed')));
+                            });
+                            log('imageUrl : $imageUrl');
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 17,
@@ -171,9 +193,9 @@ class _EditProfileState extends State<EditProfile> {
                                   height: 40,
                                   child: RaisedButton(
                                     shape: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10.0),
-                                        borderSide: BorderSide.none
-                                    ),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        borderSide: BorderSide.none),
                                     color: Colors.white,
                                     child: const Text(
                                       'Update',
@@ -181,6 +203,9 @@ class _EditProfileState extends State<EditProfile> {
                                           TextStyle(color: Color(0xff069e79)),
                                     ),
                                     onPressed: () async {
+                                      if (imageUrl.isNotEmpty) {
+                                        userModel!.imageUrl = imageUrl;
+                                      }
                                       var model = UserModel(
                                         uid: widget.uid,
                                         fullName: _fullName.text,
@@ -188,13 +213,13 @@ class _EditProfileState extends State<EditProfile> {
                                         password: _password.text,
                                         state: userModel!.state,
                                         loginState: userModel!.loginState,
-                                        imageUrl: userModel!.imageUrl,
+                                        imageUrl: imageUrl,
                                         email: userModel!.email,
                                       );
                                       await _userProvider
-                                          .updateUser(widget.uid, model).then((value) => (
-                                          currentUser!.updatePassword(_password.text)
-                                      ))
+                                          .updateUser(widget.uid, model)
+                                          .then((value) => (currentUser!
+                                              .updatePassword(_password.text)))
                                           .whenComplete(() {
                                         simpleDialogToUse(
                                             context, 'Data Update Completed');
@@ -214,5 +239,44 @@ class _EditProfileState extends State<EditProfile> {
             ),
           );
         });
+  }
+
+  chooseImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile!.path.isEmpty) {
+      retrieveLostData();
+    } else {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> retrieveLostData() async {
+    final LostData response = await picker.getLostData();
+    if (response.file != null) {
+      setState(() {
+        _image = File(response.file!.path);
+      });
+    } else {
+      log('response.file : ${response.file}');
+    }
+  }
+}
+
+class FilesUploadService {
+  late Reference firebaseStorageRef;
+
+  Future<String> fileUpload(File file, String valueName) async {
+    String result = '';
+    firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child('$valueName/${path.basename(file.path)}');
+    await firebaseStorageRef.putFile(file).whenComplete(() async {
+      await firebaseStorageRef.getDownloadURL().then((value) {
+        result = value;
+      });
+    });
+    return result;
   }
 }
