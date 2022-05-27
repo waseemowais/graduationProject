@@ -160,9 +160,9 @@ class _SubjectsDlState extends State<SubjectsDl> {
                             writerName: item.writerName!,
                             image: item.image!,
                             ontap: () {
-                              CustomDialog(
+                              showDialog(context: context, builder: (context)=>CustomDialog(
                                 description: 'sasasas',
-                              );
+                              ));
                             });
                       });
                 }),
