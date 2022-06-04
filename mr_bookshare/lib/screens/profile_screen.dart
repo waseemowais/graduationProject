@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:io';
-import 'dart:math';
 import 'package:path/path.dart' as path;
-import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,8 +25,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ImagePicker picker = ImagePicker();
   File? _image;
   String imageUrl = '';
-  var refreshKey = GlobalKey<RefreshIndicatorState>();
-  int randomNumber = Random().nextInt(10);
   final UserService _userService = UserService();
   UserModel? userModel;
 
@@ -40,11 +36,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     ImageProvider? imageProvider = (userData[imageUrl.isNotEmpty
         ? NetworkImage(userData[imageUrl])
         : AssetImage("assets/images/book.gif")]) as ImageProvider<Object>?;
-    //
-    // ImageProvider? image = (_image == null
-    //     ? NetworkImage(
-    //     userModel!.imageUrl!.isEmpty ? 'assets/images/istockphoto-1223671392-612x612.jpg' : userModel!.imageUrl!)
-    //     : FileImage(_image!)) as ImageProvider<Object>?;
 
     userData = UserService().getUserData();
     return FutureBuilder(

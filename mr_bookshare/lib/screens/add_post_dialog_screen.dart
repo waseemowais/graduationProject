@@ -6,7 +6,6 @@ import 'package:mr_bookshare/component/Button_view_for_dialog.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/core/Models/postmodel.dart';
 import 'package:mr_bookshare/core/Provider/post_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 class AddPostDialog extends StatelessWidget {
   AddPostDialog({Key? key,}) : super(key: key);
@@ -18,7 +17,6 @@ class AddPostDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var postProvider = Provider.of<PostProvider>(context,listen: true);
     return Dialog(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16)

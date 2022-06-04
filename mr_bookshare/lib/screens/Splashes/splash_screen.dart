@@ -56,22 +56,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 onTap: () {},
               ),
             ),
-            //should be animated
-            // const SizedBox(
-            //   height: 250,
-            // ),
-            // RaisedButton(
-            //     color: Colors.white,
-            //     child: const Text(
-            //       'START',
-            //       style:  TextStyle(
-            //         color: Color(0xff069e79),
-            //         fontWeight: FontWeight.bold
-            //       ),
-            //     ),
-            //     onPressed: () {
-            //      Navigator.of(context).pushNamed(loginScreen);
-            //     })
           ],
         )
       ]),

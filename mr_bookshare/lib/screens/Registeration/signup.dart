@@ -48,7 +48,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(
                     width: 200,
-                    child: const Icon(
+                    child:  Icon(
                       Icons.app_registration,
                       color: Color(0xff069e79),
                       size: 110,
@@ -142,14 +142,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return 'Email required';
-                    //   } else if (!emailValidator(value)) {
-                    //     return 'Enter Valid Email';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                 ),
                 const SizedBox(
@@ -181,18 +173,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-                    // validator: (value) {
-                    //   if (value!.isEmpty) {
-                    //     return '* required';
-                    //   } else if (value.length < 6) {
-                    //     return 'Password should be at least 6 characters';
-                    //   } else if (value.length > 15) {
-                    //     return "Password should not be greater than 15 characters";
-                    //   } else if (!passValidator(value)) {
-                    //     return 'At least 1 character ,a number, a symbol and CAPITAL character ';
-                    //   }
-                    //   return null;
-                    // },
                   ),
                 ),
                 SizedBox(
