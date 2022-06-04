@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/Utils/loader.dart';
+import 'package:mr_bookshare/component/check_box.dart';
 import 'package:mr_bookshare/component/internet_connection_dialog.dart';
 import 'package:mr_bookshare/core/services/connectivity_service.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
@@ -26,6 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final password = TextEditingController();
   final fullName = TextEditingController();
   final major = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -193,6 +195,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     // },
                   ),
                 ),
+                SizedBox(
+                  height: 10,
+                ),
+                CheckBoxView(),
                 const SizedBox(
                   height: 30,
                 ),
@@ -217,6 +223,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     thickness: 2,
                   ),
                 ),
+                const SizedBox(
+                  height: 14,
+                ),
+
                 const SizedBox(
                   height: 14,
                 ),
@@ -286,5 +296,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
         internetConnectionDialog(context);
       }
     }
+  }
+}
+//================================check box======================================
+
+class TermsAndConditionsView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Text(""),
+    );
   }
 }

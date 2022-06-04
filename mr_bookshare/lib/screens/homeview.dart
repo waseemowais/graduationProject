@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
-
 import 'package:mr_bookshare/core/services/user_service.dart';
 
 class HomeView extends StatefulWidget {
@@ -43,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
         ],
         leading: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(profileScreen, arguments: userData);
+            Navigator.of(context).pushNamed(profileScreen, arguments: userData['uid']);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),

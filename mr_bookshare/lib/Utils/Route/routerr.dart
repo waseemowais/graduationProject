@@ -11,6 +11,7 @@ import 'package:mr_bookshare/screens/Splashes/splash_screen.dart';
 import 'package:mr_bookshare/screens/editprofile_screen.dart';
 
 import 'package:mr_bookshare/screens/homeview.dart';
+import 'package:mr_bookshare/screens/image_viewer.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 import 'package:mr_bookshare/screens/search_screen.dart';
 
@@ -43,8 +44,8 @@ class MyRouter {
         }
         case profileScreen:
         {
-          // final arg = settings.arguments as UserModel;
-          return _route(ProfileScreen());
+          final arg = settings.arguments as String;
+          return _route(ProfileScreen(uid: arg,));
         }
         case editprofileScreen:
         {
@@ -59,6 +60,11 @@ class MyRouter {
         case searchScreen:
         {
           return _route(SearchScreen());
+        }
+        case imageViewer:
+        {
+          final arg = settings.arguments as String;
+          return _route(ImageViewerScreen(imageUrl: arg,));
         }
 
       default:

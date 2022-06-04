@@ -1,15 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member
 
-import 'dart:developer';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
-import 'package:mr_bookshare/core/services/user_service.dart';
 import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
-import 'package:provider/provider.dart';
 
 import '../core/Models/postmodel.dart';
 import '../core/Provider/post_provider.dart';

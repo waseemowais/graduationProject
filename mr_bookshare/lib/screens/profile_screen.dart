@@ -1,120 +1,236 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
 import 'dart:math';
-import 'dart:ui';
-import 'package:flutter/cupertino.dart';
+import 'package:path/path.dart' as path;
+import 'package:path/path.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 
 import 'package:mr_bookshare/core/services/user_service.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+import '../core/Models/user_model.dart';
 
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen({Key? key, required this.uid}) : super(key: key);
+  final String uid;
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final FilesUploadService _filesUploadService = FilesUploadService();
+  ImagePicker picker = ImagePicker();
+  File? _image;
+  String imageUrl = '';
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   int randomNumber = Random().nextInt(10);
+  final UserService _userService = UserService();
+  UserModel? userModel;
 
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> userData = {};
     userData = UserService().getUserData();
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: const Color(0xff069e79),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ),
-      body: Stack(alignment: Alignment.center, children: [
-        CustomPaint(
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-          ),
-          painter: Header(),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const Padding(
-              padding: EdgeInsets.all(20),
-              child: Text(
-                'Profile',
-                style: TextStyle(
-                  fontSize: 35,
-                  letterSpacing: 1.5,
-                  color: Colors.white,
-                ),
-              ),
+
+    ImageProvider? imageProvider = (userData[imageUrl.isNotEmpty
+        ? NetworkImage(userData[imageUrl])
+        : AssetImage("assets/images/book.gif")]) as ImageProvider<Object>?;
+    //
+    // ImageProvider? image = (_image == null
+    //     ? NetworkImage(
+    //     userModel!.imageUrl!.isEmpty ? 'assets/images/istockphoto-1223671392-612x612.jpg' : userModel!.imageUrl!)
+    //     : FileImage(_image!)) as ImageProvider<Object>?;
+
+    userData = UserService().getUserData();
+    return FutureBuilder(
+      future: _userService.getUser(widget.uid),
+      builder: (context, snapshot) {
+        return Scaffold(
+          appBar: AppBar(
+            elevation: 0.0,
+            backgroundColor: const Color(0xff069e79),
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
             ),
-            Container(
-              padding: const EdgeInsets.all(10.0),
-              width: MediaQuery.of(context).size.width / 2,
-              height: MediaQuery.of(context).size.width / 2,
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.white, width: 5),
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  image: const DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
-                  )),
-            )
-          ],
-        ),
-        Column(
-          children: [
-            const SizedBox(
-              height: 300,
+          ),
+          body: Stack(alignment: Alignment.center, children: [
+            CustomPaint(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+              ),
+              painter: Header(),
             ),
             Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                InformationView(
-                  txt: userData['fullName'],
-                  icon: Icons.person_outlined,
+                const Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Text(
+                    'Profile',
+                    style: TextStyle(
+                      fontSize: 35,
+                      letterSpacing: 1.5,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                InformationView(
-                  txt: userData['email'],
-                  icon: Icons.email_outlined,
+                CircleAvatar(
+                  backgroundImage: imageProvider,
+                  maxRadius: 90,
+                  minRadius: 25,
                 ),
-                InformationView(
-                  txt: userData['major'],
-                  icon: Icons.book_outlined,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(7),
-                  child: SizedBox(
-                      width: 500,
-                      height: 40,
-                      child: RaisedButton(
-                          color: Color(0xff069e79),
-                          child: Text(
-                            'Edit Profile Here',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context)
-                                .pushNamed(editprofileScreen,arguments:userData['uid']);
-                          })),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 120),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.camera_enhance_sharp,
+                          size: 30,
+                        ),
+                        onPressed: () async{
+                          var result = await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return SimpleDialog(
+                                  title: Text('Chose your image option.'),
+                                  children: [
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.start,
+                                        children: [
+                                          SimpleDialogOption(
+                                            child: Text(
+                                              'Change your image',
+                                            ),
+                                            onPressed: () {
+                                              Navigator.pop(context, true);
+                                            },
+                                          ),
+                                          // SimpleDialogOption(
+                                          //   child: Divider(),
+                                          //   onPressed: () {},
+                                          // ),
+                                          // SimpleDialogOption(
+                                          //   child: Text(
+                                          //     'View your image',
+                                          //   ),
+                                          //   onPressed: () {
+                                          //     Navigator.pop(context, false);
+                                          //   },
+                                          // ),
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                );
+                              });
+                          if (result != null) {
+                            if (result) {
+                              // change his image
+                              await chooseImage();
+                              if (_image != null) {
+                                imageUrl = await _filesUploadService
+                                    .fileUpload(_image!, 'UsersImage')
+                                    .whenComplete(() {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('Upload Completed')));
+                                });
+                                // log('imageUrl : $imageUrl');
+                              }
+                            } else {
+                              // view his image
+                              Navigator.of(context).pushNamed(imageViewer,
+                                  arguments: userModel!.imageUrl!.isEmpty
+                                      ? 'assets/images/istockphoto-1223671392-612x612.jpg'
+                                      : userModel!.imageUrl);
+                            }
+                          }
+
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-          ],
-        ),
-      ]),
+            Column(
+              children: [
+                const SizedBox(
+                  height: 300,
+                ),
+                Column(
+                  children: [
+                    InformationView(
+                      txt: userData['fullName'],
+                      icon: Icons.person_outlined,
+                    ),
+                    InformationView(
+                      txt: userData['email'],
+                      icon: Icons.email_outlined,
+                    ),
+                    InformationView(
+                      txt: userData['major'],
+                      icon: Icons.book_outlined,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(7),
+                      child: SizedBox(
+                          width: 500,
+                          height: 40,
+                          child: RaisedButton(
+                              color: Color(0xff069e79),
+                              child: Text(
+                                'Edit Profile Here',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(editprofileScreen,
+                                    arguments: userData['uid']);
+                              })),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ]),
+        );
+      }
     );
+  }
+
+  chooseImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile!.path.isEmpty) {
+      retrieveLostData();
+    } else {
+      setState(() {
+        _image = File(pickedFile.path);
+      });
+    }
+  }
+
+  Future<void> retrieveLostData() async {
+    final LostData response = await picker.getLostData();
+    if (response.file != null) {
+      setState(() {
+        _image = File(response.file!.path);
+      });
+    } else {
+      // log('response.file : ${response.file}');
+    }
   }
 }
 
@@ -134,3 +250,19 @@ class Header extends CustomPainter {
   bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
+class FilesUploadService {
+  late Reference firebaseStorageRef;
+
+  Future<String> fileUpload(File file, String valueName) async {
+    String result = '';
+    firebaseStorageRef = FirebaseStorage.instance
+        .ref()
+        .child('$valueName/${path.basename(file.path)}');
+    await firebaseStorageRef.putFile(file).whenComplete(() async {
+      await firebaseStorageRef.getDownloadURL().then((value) {
+        result = value;
+      });
+    });
+    return result;
+  }
+}
