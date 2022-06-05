@@ -4,12 +4,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
+import 'package:mr_bookshare/Utils/user_data_helper.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
+import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
 
 class HomeView extends StatefulWidget {
-  const HomeView({Key? key, required this.uid}) : super(key: key);
-  final String uid;
+   const HomeView({Key? key,}) : super(key: key);
+
 
   @override
   _HomeViewState createState() => _HomeViewState();
@@ -21,7 +23,11 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     Map<String, dynamic> userData = {};
-    userData = _userService.getUserData();
+    UserModel model = getUserData();
+
+    ImageProvider? imageProvider = (model.imageUrl!.isNotEmpty
+        ? NetworkImage(model.imageUrl!)
+        : AssetImage("assets/images/person_avatar.png")) as ImageProvider<Object>?;
     return Scaffold(
       backgroundColor: const Color(0xff069e79),
       appBar: AppBar(
@@ -41,7 +47,7 @@ class _HomeViewState extends State<HomeView> {
         ],
         leading: InkWell(
           onTap: () {
-            Navigator.of(context).pushNamed(profileScreen, arguments: userData['uid']);
+            Navigator.of(context).pushNamed(profileScreen, arguments: model);
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -52,10 +58,9 @@ class _HomeViewState extends State<HomeView> {
                   border: Border.all(color: Color(0xff069e79), width: 3),
                   shape: BoxShape.circle,
                   color: Color(0xff069e79),
-                  image: const DecorationImage(
+                  image:  DecorationImage(
                     fit: BoxFit.cover,
-                    image: NetworkImage(
-                        'https://media-exp1.licdn.com/dms/image/C4E03AQElF2rGbinBUQ/profile-displayphoto-shrink_200_200/0/1636412301461?e=1654732800&v=beta&t=_sGkrOYsffDgd8hZC7clC7wxGS-qIk0oiChwRL5dVfw'),
+                    image: imageProvider!,
                   )),
             ),
           ),
@@ -76,7 +81,7 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello ${userData['fullName']},',
+                'Hello ${model.fullName},',
                 style: TextStyle(
                     fontSize: 25,
                     color: Color(0xff069e79),
@@ -107,7 +112,7 @@ class _HomeViewState extends State<HomeView> {
               padding: const EdgeInsets.only(left: 8, bottom: 2),
               child: Row(
                 children: const [
-                  Text('Faculteis',
+                  Text('Faculties',
                       style: TextStyle(
                           fontSize: 20,
                           color: Colors.white,
@@ -127,12 +132,12 @@ class _HomeViewState extends State<HomeView> {
                     child: const DashboardCard(
                         color: Colors.white,
                         icon: Icons.medical_services_outlined,
-                        text: 'Medicin',
+                        text: 'Medicine',
                         textarabic: 'الطب'),
                   ),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(subjectsDl);
+                      Navigator.of(context).pushNamed(subjectScreen);
                     },
                     child: const DashboardCard(
                         color: Colors.white,

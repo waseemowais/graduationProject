@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 class InformationView extends StatelessWidget {
@@ -49,29 +51,48 @@ class EditTextView extends StatelessWidget {
   }
 }
 //==================================for upload subject==========================
-class SubjectTextFielView extends StatelessWidget {
-  const SubjectTextFielView({Key? key,required this.hint,required this.labeltext, required this.controller}) : super(key: key);
+class SubjectTextFielView extends StatefulWidget {
+  const SubjectTextFielView({Key? key,required this.hint, required this.controller}) : super(key: key);
   final String hint;
-  final String labeltext;
   final TextEditingController controller;
+
+  @override
+  State<SubjectTextFielView> createState() => _SubjectTextFielViewState();
+}
+
+class _SubjectTextFielViewState extends State<SubjectTextFielView> {
+
+
+  String? validate(String? value){
+    if(widget.controller.text.isEmpty){
+      return 'Required Field';
+    }else {
+      return null;
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
+    return TextFormField(
+      validator: validate,
+      controller: widget.controller,
       decoration: InputDecoration(
-          label:Text(labeltext,style: TextStyle(color:Color(0xff069e79)),) ,
-          hintText: hint,
+          hintText: widget.hint,
           hintStyle: TextStyle(
               color:Color(0xff069e79)
           ),
           enabledBorder: OutlineInputBorder(
             borderSide:
-            const BorderSide(color: Colors.black12, width: 2.0),
+             BorderSide(color: Colors.black12, width: 2.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(
                 color: Color(0xff069e79), width: 2.0),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide:
+            BorderSide(color: Colors.black12, width: 2.0),
             borderRadius: BorderRadius.circular(10.0),
           ),
           border: OutlineInputBorder(

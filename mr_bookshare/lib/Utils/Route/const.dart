@@ -6,8 +6,8 @@ const String homeScreen = '/homeScreen';
 const String profileScreen = '/homeScreen/profileScreen';
 const String imageViewer = '/homeScreen/profileScreen/imageViewer';
 const String editprofileScreen = '/homeScreen/profileScreen/editScreen';
-const String subjectsDl = '/homeScreen/majorScreen/subjectsDl';
-const String searchScreen = '/homeScreen/majorScreen/subjectsDl/searchScreen';
+const String subjectScreen = '/homeScreen/majorScreen/subjectScreen';
+const String searchScreen = '/homeScreen/majorScreen/subjectScreen/searchScreen';
 
 
 

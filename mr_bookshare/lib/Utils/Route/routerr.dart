@@ -15,7 +15,7 @@ import 'package:mr_bookshare/screens/image_viewer.dart';
 import 'package:mr_bookshare/screens/profile_screen.dart';
 import 'package:mr_bookshare/screens/search_screen.dart';
 
-import 'package:mr_bookshare/screens/subjects_dl.dart';
+import 'package:mr_bookshare/screens/SubjectsScreen.dart';
 
 
 class MyRouter {
@@ -39,23 +39,22 @@ class MyRouter {
         }
       case homeScreen:
         {
-          final arg = settings.arguments as String;
-          return _route(HomeView(uid: arg,));
+          return _route(HomeView());
         }
         case profileScreen:
         {
-          final arg = settings.arguments as String;
-          return _route(ProfileScreen(uid: arg,));
+          final arg = settings.arguments as UserModel;
+          return _route(ProfileScreen(model: arg,));
         }
         case editprofileScreen:
         {
-          final arg = settings.arguments as String;
-          return _route(EditProfile(uid: arg,));
+          final arg = settings.arguments as UserModel;
+          return _route(EditProfile(model: arg,));
         }
-        case subjectsDl:
+        case subjectScreen:
         {
           // final arg = settings.arguments as String;
-          return _route(SubjectsDl());
+          return _route(SubjectScreen());
         }
         case searchScreen:
         {

@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, unnecessary_const, prefer_const_literals_to_create_immutables
 
 import 'dart:collection';
 import 'dart:developer';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/Utils/loader.dart';
 import 'package:mr_bookshare/component/check_box.dart';
+import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/internet_connection_dialog.dart';
 import 'package:mr_bookshare/core/services/connectivity_service.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
@@ -28,6 +29,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final fullName = TextEditingController();
   final major = TextEditingController();
 
+  bool? isChecked = false;
+  bool color = false;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +51,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(
                     width: 200,
-                    child:  Icon(
+                    child: Icon(
                       Icons.app_registration,
                       color: Color(0xff069e79),
                       size: 110,
@@ -178,19 +181,60 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 SizedBox(
                   height: 10,
                 ),
-                CheckBoxView(),
+                Padding(
+                  padding: const EdgeInsets.only(left: 50.0, top: 20),
+                  child: SizedBox(
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          activeColor: Color(0xff069e79),
+                          onChanged: (bool? b) {
+                            setState(() {
+                              isChecked = b;
+                              color = !color;
+                            });
+                          },
+                        ),
+                        Text("I agree to the"),
+                        TextButton(
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => CustomDialog(
+                                        description:
+                                            'The copyright symbol consists of a letter “c” in a circle, followed by the name of the owner of the copyright and the year the work was first published. For example, the copyright symbol, followed by Jane Doe, comma, 1999, indicates that Jane Doe is the author of the work that was first published in 1999.'
+                                                '\n And We are not responsible for any copyrighted version posted or downloaded',
+                                        title: 'Warning',
+                                        image: 'assets/images/abcca7_fcf2d4b88bb94a13b0fc2991c0874b02_mv2.gif',
+                                      ));
+                            },
+                            child: Text(
+                              "Terms & conditions",
+                              style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                  color: Color(0xff069e79),
+                                  fontWeight: FontWeight.bold),
+                            ))
+                      ],
+                    ),
+                  ),
+                ),
                 const SizedBox(
-                  height: 30,
+                  height: 15,
                 ),
                 RaisedButton(
                   onPressed: () {
-                    validateAndSubmit(context);
+                    if (isChecked!) {
+                      validateAndSubmit(context);
+                    }
                   },
                   child: const Text(
                     'SignUp',
-                    style: const TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20),
                   ),
-                  color: const Color(0xff069e79),
+                  color: color ? Color(0xff069e79) : Colors.grey,
+                  // Color(0xff069e79),
                   textColor: Colors.white,
                   padding: const EdgeInsets.all(8.0),
                 ),
@@ -199,14 +243,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 const SizedBox(
                   width: 290,
-                  child: const Divider(
+                  child: Divider(
                     thickness: 2,
                   ),
                 ),
                 const SizedBox(
                   height: 14,
                 ),
-
                 const SizedBox(
                   height: 14,
                 ),
@@ -238,53 +281,73 @@ class _SignUpScreenState extends State<SignUpScreen> {
       if (await ConnectivityService.checkInternetConnectivity()) {
         Loader.showLoadingScreen(context, _keyLoader);
         log('email : ${email.text.trim()} | password : ${password.text.trim()}');
-        if (email.text.isEmpty &&
-            password.text.isEmpty &&
-            fullName.text.isEmpty &&
-            major.text.isEmpty) {
-          log('wrong');
-        } else {
-          var userValues = HashMap();
-          userValues['email'] = email.text.trim();
-          userValues['fullName'] = fullName.text.trim();
-          userValues['password'] = password.text.trim();
-          userValues['major'] = major.text.trim();
 
-          var result = await _userService.signUp(userValues);
-          Navigator.of(_keyLoader.currentContext ?? context,
-                  rootNavigator: true)
-              .pop();
-          if (result == 'The password provided is too weak.') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text(
-                  'The password provided is too weak(at least 8 numbers).'),
-            ));
-          } else if (result == 'The account already exists for that email.') {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('The account already exists for that email.'),
-            ));
-          } else if (result == "This isn't an email") {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("This isn't an email"),
-            ));
-          } else {
-            log('uid2 : $result');
-            Navigator.of(context).pushNamed(homeScreen, arguments: result);
-          }
+        var userValues = HashMap();
+        userValues['email'] = email.text.trim();
+        userValues['fullName'] = fullName.text.trim();
+        userValues['password'] = password.text.trim();
+        userValues['major'] = major.text.trim();
+
+        var result = await _userService.signUp(userValues);
+        log(result);
+        Navigator.of(_keyLoader.currentContext ?? context, rootNavigator: true)
+            .pop();
+        if (result == 'The password provided is too weak.') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content:
+                Text('The password provided is too weak(at least 8 numbers).'),
+          ));
+        } else if (result == 'The account already exists for that email.') {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('The account already exists for that email.'),
+          ));
+        } else if (result == "This isn't an email") {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text("This isn't an email"),
+          ));
+        } else if (result.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            content: Text('Enter your personal information'),
+          ));
+        } else {
+          log('uid2 : $result');
+          Navigator.of(context).pushNamed(homeScreen, arguments: result);
         }
       } else {
         internetConnectionDialog(context);
       }
     }
   }
+
+  void displayMessage() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          AlertDialog dialog = AlertDialog(
+            content: Column(
+              children: [
+                Text('you have accepted the terms .'),
+              ],
+            ),
+            actions: [
+              FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'))
+            ],
+          );
+          return dialog;
+        });
+  }
 }
 //================================check box======================================
 
 class TermsAndConditionsView extends StatelessWidget {
+  const TermsAndConditionsView({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(""),
-    );
+    return Text("");
   }
 }

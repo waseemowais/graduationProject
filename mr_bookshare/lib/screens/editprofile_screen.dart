@@ -10,8 +10,8 @@ import '../core/Models/user_model.dart';
 import '../core/services/user_service.dart';
 
 class EditProfile extends StatefulWidget {
-  const EditProfile({Key? key, required this.uid}) : super(key: key);
-  final String uid;
+   EditProfile({Key? key, required this.model}) : super(key: key);
+  UserModel model;
 
   @override
   _EditProfileState createState() => _EditProfileState();
@@ -31,7 +31,7 @@ class _EditProfileState extends State<EditProfile> {
     Map<String, dynamic> userData = {};
     userData = UserService().getUserData();
     return FutureBuilder(
-        future: _userService.getUser(widget.uid),
+        future: _userService.getUser(widget.model.uid!),
         builder: (ctx, snapshot) {
           var data = snapshot.data;
           if (data == null) {
@@ -151,17 +151,17 @@ class _EditProfileState extends State<EditProfile> {
                                     ),
                                     onPressed: () async {
                                       var model = UserModel(
-                                        uid: widget.uid,
+                                        uid: widget.model.uid,
                                         fullName: _fullName.text,
                                         major: _major.text,
                                         password: _password.text,
-                                        state: userModel!.state,
-                                        loginState: userModel!.loginState,
-                                        imageUrl: userModel!.imageUrl,
-                                        email: userModel!.email,
+                                        state: widget.model.state,
+                                        loginState: widget.model.loginState,
+                                        imageUrl: widget.model.imageUrl,
+                                        email: widget.model.email,
                                       );
                                       await _userProvider
-                                          .updateUser(widget.uid, model)
+                                          .updateUser(widget.model.uid!, model)
                                           .then((value) => (currentUser!
                                               .updatePassword(_password.text)))
                                           .whenComplete(() {

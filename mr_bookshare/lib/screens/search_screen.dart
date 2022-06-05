@@ -132,9 +132,9 @@ class _SearchScreenState extends State<SearchScreen> {
                           writerName: data['writerName'],
                           image: data['image'],
                           ontap: () {
-                            CustomDialog(
-                              description: 'sasasas',
-                            );
+                            showDialog(context: context, builder: (context)=> CustomDialog(
+                              description: data['description'], title: 'Description', image: 'assets/images/book.gif',
+                            ));
                           });
                     }).toList(),
                   );

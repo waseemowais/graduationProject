@@ -207,7 +207,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ));
         } else {
           log('uid2 : $result');
-          Navigator.of(context).popAndPushNamed(homeScreen, arguments: result);
+          Navigator.of(context).pushNamed(homeScreen, arguments: result);
         }
       }
     } else {

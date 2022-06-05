@@ -22,7 +22,6 @@ class UserModel {
         this.state,
         this.imageUrl,
         this.major
-
       });
 
   UserModel.fromJson(Map<String, dynamic> json) {

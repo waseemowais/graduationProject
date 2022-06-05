@@ -5,25 +5,17 @@ import 'package:mr_bookshare/Utils/Route/routerr.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
 import 'package:mr_bookshare/core/session_manager/session_manager.dart';
 
-
-import 'package:mr_bookshare/test.dart';
 import 'package:provider/provider.dart';
 
-
-
-
-
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Prefs.init();
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
-
 
   @override
   Widget build(BuildContext context) {
@@ -42,14 +34,14 @@ class MyApp extends StatelessWidget {
 
 //===============for test========================================================
 
-class Test extends StatelessWidget {
-  const Test({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return  const MaterialApp(
-      home:  WhitePage(),
-    );
-  }
-}
+// class Test extends StatelessWidget {
+//   const Test({Key? key}) : super(key: key);
+//
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(
+//       home: WhitePage(),
+//     );
+//   }
+// }

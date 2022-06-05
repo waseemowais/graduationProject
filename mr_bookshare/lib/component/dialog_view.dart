@@ -1,14 +1,22 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
+
 class CustomDialog extends StatelessWidget {
-  const CustomDialog({Key? key,required this.description,}) : super(key: key);
+  const CustomDialog({
+    Key? key,
+    required this.description,
+    required this.image,
+    required this.title,
+  }) : super(key: key);
+  final String image;
+  final String title;
   final String description;
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       elevation: 0.0,
       backgroundColor: Colors.transparent,
       child: dialogContent(context),
@@ -19,73 +27,82 @@ class CustomDialog extends StatelessWidget {
     return Stack(
       children: [
         Container(
-          padding: const EdgeInsets.only(
-            top: 100,
-            bottom: 16,
-            left: 16,
-            right: 16
-          ),
-          margin:const EdgeInsets.only(top: 16) ,
+          padding:
+              const EdgeInsets.only(top: 100, bottom: 16, left: 16, right: 16),
+          margin: const EdgeInsets.only(top: 16),
           decoration: BoxDecoration(
-            color: Colors.white,
-            shape: BoxShape.rectangle,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow:const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10.0,
-                offset: Offset(0.0,10.0)
-              )
-            ]
-          ),
-          child:Column(
+              color: Colors.white,
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: const [
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 10.0,
+                    offset: Offset(0.0, 10.0))
+              ]),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text(
-                'Describtion',
+              SizedBox(
+                height: 80,
+              ),
+              Text(
+                title,
                 style: TextStyle(
                   color: Color(0xff069e79),
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              const SizedBox(height: 24,),
-              Text(description,style:const TextStyle(fontSize: 16,),),
-              const SizedBox(height: 24,),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                description,
+                style: const TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
               Align(
                 alignment: Alignment.bottomRight,
-                child:FlatButton(
-                  onPressed: (){
+                child: FlatButton(
+                  onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Close',style: TextStyle(color: Color(0xff069e79)),),
-                ) ,
+                  child: const Text(
+                    'Close',
+                    style: TextStyle(color: Color(0xff069e79)),
+                  ),
+                ),
               )
             ],
           ),
         ),
-        const Positioned(
-          top: 0,
-          left: 16,
-          right: 16,
+        Positioned(
+            top: 0,
+            left: 16,
+            right: 16,
             child: CircleAvatar(
-          foregroundImage: AssetImage('assets/images/book.gif'),
-          radius: 50,
-        ))
+              backgroundColor: Colors.white,
+              backgroundImage: AssetImage(image),
+              radius: 80,
+            ))
       ],
     );
   }
 }
 //==============================Dialog alert  for edit profile==================
 
-void simpleDialogToUse(BuildContext context,String massage) async {
-
+void simpleDialogToUse(BuildContext context, String massage) async {
   return showDialog(
       context: context,
       builder: (BuildContext context) {
         return Dialog(
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
           child: SizedBox(
             height: 300,
             // width: 100,
@@ -135,7 +152,7 @@ void simpleDialogToUse(BuildContext context,String massage) async {
                         },
                         style: ButtonStyle(
                           backgroundColor:
-                          MaterialStateProperty.all(Colors.black),
+                              MaterialStateProperty.all(Colors.black),
                         ),
                       ),
                     ),

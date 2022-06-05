@@ -10,14 +10,14 @@ import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
 import '../core/Models/postmodel.dart';
 import '../core/Provider/post_provider.dart';
 
-class SubjectsDl extends StatefulWidget {
-  const SubjectsDl({Key? key}) : super(key: key);
+class SubjectScreen extends StatefulWidget {
+  const SubjectScreen({Key? key}) : super(key: key);
 
   @override
-  _SubjectsDlState createState() => _SubjectsDlState();
+  _SubjectScreenState createState() => _SubjectScreenState();
 }
 
-class _SubjectsDlState extends State<SubjectsDl> {
+class _SubjectScreenState extends State<SubjectScreen> {
   final TextEditingController _search = TextEditingController();
   PostList? postList;
   PostProvider postProvider = PostProvider();
@@ -161,7 +161,7 @@ class _SubjectsDlState extends State<SubjectsDl> {
                                 image: item.image!,
                                 ontap: () {
                                   showDialog(context: context, builder: (context)=>CustomDialog(
-                                    description: item.description!,
+                                    description: item.description!, image: 'assets/images/book.gif', title: 'Description',
                                   ));
                                 });
                           }),
