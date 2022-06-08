@@ -1,10 +1,15 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
 import 'package:mr_bookshare/core/Models/postmodel.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -135,7 +140,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             showDialog(context: context, builder: (context)=> CustomDialog(
                               description: data['description'], title: 'Description', image: 'assets/images/book.gif',
                             ));
-                          }, fileUrl: data['url'], downLoadUrl: () {  },);
+                          }, fileUrl: data['fileUrl'], downLoadUrl: () {
+                            downLoadFile(data['fileUrl'], data['subjectName']);
+                      },);
                     }).toList(),
                   );
                 }),
@@ -143,5 +150,25 @@ class _SearchScreenState extends State<SearchScreen> {
         ],
       ),
     );
+  }
+  Future<File?> downLoadFile(String url, String name) async {
+    final appStorage = await getApplicationDocumentsDirectory();
+    final file = File('${appStorage.path}/$name');
+    try {
+      final response = await Dio().get(url,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            receiveTimeout: 0,
+          ));
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+      OpenFile.open(file.path);
+
+      return file;
+    } catch (e) {
+      return null;
+    }
   }
 }
