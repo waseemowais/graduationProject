@@ -8,6 +8,7 @@ class SubjectView extends StatelessWidget {
   final VoidCallback ontap;
   final String image;
   final String fileUrl;
+  final VoidCallback downLoadUrl;
 
   const SubjectView(
       {Key? key,
@@ -15,7 +16,7 @@ class SubjectView extends StatelessWidget {
       required this.writerName,
       required this.image,
       required this.ontap,
-      required this.fileUrl})
+       required this.fileUrl, required this.downLoadUrl})
       : super(key: key);
 
   @override
@@ -60,16 +61,9 @@ class SubjectView extends StatelessWidget {
                             fontSize: 15,
                             fontWeight: FontWeight.w500),
                       ),
-                      Text(
-                        fileUrl,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 3,
-                            fontWeight: FontWeight.w500),
-                      ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: downLoadUrl,
                           icon: Icon(
                             Icons.download_rounded,
                             size: 35,

@@ -60,6 +60,9 @@ dependencies:
   image_picker:
   flutter_masked_text:
   file_picker:
+  path_provider:
+  dio:
+  open_file:
 
 
 

@@ -1,10 +1,15 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member, unnecessary_null_comparison
 
+import 'dart:io';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
 import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../core/Models/postmodel.dart';
 import '../core/Provider/post_provider.dart';
@@ -163,7 +168,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           image: 'assets/images/book.gif',
                                           title: 'Description',
                                         ));
-                              }, fileUrl: item.fileUrl!,
+                              },
+                              fileUrl: item.fileUrl!,
+                              downLoadUrl: () {
+                                downLoadFile(item.fileUrl!, item.subjectName!);
+                              },
                             );
                           }),
                     ),
@@ -181,5 +190,35 @@ class _SubjectScreenState extends State<SubjectScreen> {
       setState(() {});
     }
     Future.value(null);
+  }
+
+  // Future openFile({required String url, String? fileName}) async {
+  //   final file = await downLoadFile(url, fileName!);
+  //   if (file == null) return;
+  //
+  //   print('path: ${file.path}');
+  //
+  //   OpenFile.open(file.path);
+  // }
+
+  Future<File?> downLoadFile(String url, String name) async {
+    final appStorage = await getApplicationDocumentsDirectory();
+    final file = File('${appStorage.path}/$name');
+    try {
+      final response = await Dio().get(url,
+          options: Options(
+            responseType: ResponseType.bytes,
+            followRedirects: false,
+            receiveTimeout: 0,
+          ));
+      final raf = file.openSync(mode: FileMode.write);
+      raf.writeFromSync(response.data);
+      await raf.close();
+      OpenFile.open(file.path);
+
+      return file;
+    } catch (e) {
+      return null;
+    }
   }
 }

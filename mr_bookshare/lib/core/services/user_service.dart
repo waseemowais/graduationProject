@@ -21,7 +21,7 @@ class UserService {
   }
 
   Future<String> getCurrentUID() async {
-    return (await _firebaseAuth.currentUser!).uid;
+    return (_firebaseAuth.currentUser!).uid;
   }
 
   Future<String> signIn(String email, String password) async {
@@ -32,6 +32,7 @@ class UserService {
               email: email, password: password))
           .user;
       uid = user!.uid;
+      log('$user');
       // add all user data to SharedPerfs
       await addUserDataToPrefs(uid, false);
     } on FirebaseAuthException catch (e) {
