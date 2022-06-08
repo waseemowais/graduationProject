@@ -2,9 +2,7 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 import '../Models/postmodel.dart';
-
 
 class PostService {
   final _firestore = FirebaseFirestore.instance;
@@ -12,27 +10,23 @@ class PostService {
   int statusCode = 0;
   String msg = '';
 
-
   Future<void> addPost(PostModel model) async {
-    await _firestore.collection(collectionName)
+    await _firestore
+        .collection(collectionName)
         .add(model.toJson())
         .whenComplete(() {
       log('post data added successful');
       statusCode = 200;
       msg = 'post data added successful';
-    }).catchError((onError){
+    }).catchError((onError) {
       handleAuthErrors(onError);
       log('statusCode : $statusCode , error msg : $msg');
     });
   }
 
-
-
   Future<PostList> getPosts() async {
     QuerySnapshot querySnapshot =
-    await _firestore.collection(collectionName)
-        .get()
-        .catchError((error) {
+        await _firestore.collection(collectionName).get().catchError((error) {
       handleAuthErrors(error);
       log('statusCode : $statusCode , error msg : $msg');
     });
@@ -50,7 +44,7 @@ class PostService {
       postMap['image'] = item.get('image');
       postMap['id'] = item.get('id');
       postMap['description'] = item.get('description');
-
+      postMap['fileUrl'] = item.get('fileUrl');
 
       postModel = PostModel.fromJson(postMap);
       data.add(postModel);
@@ -59,8 +53,6 @@ class PostService {
     postList = PostList(posts: data);
     return postList;
   }
-
-
 
   Future<void> updatePost(String id, PostModel model) async {
     QuerySnapshot querySnapshot = await _firestore
@@ -98,6 +90,7 @@ class PostService {
     postMap['writerName'] = querySnapshot.docs[0].get('writerName');
     postMap['image'] = querySnapshot.docs[0].get('image');
     postMap['description'] = querySnapshot.docs[0].get('description');
+    postMap['fileUrl'] = querySnapshot.docs[0].get('fileUrl');
 
     postModel = PostModel.fromJson(postMap);
     return postModel;
@@ -122,7 +115,6 @@ class PostService {
       log('statusCode : $statusCode , error msg : $msg');
     });
   }
-
 
   void handleAuthErrors(ArgumentError error) {
     String errorCode = error.message;
@@ -155,7 +147,7 @@ class PostService {
         {
           statusCode = 400;
           msg =
-          "The caller does not have permission to execute the specified operation.";
+              "The caller does not have permission to execute the specified operation.";
         }
         break;
       default:

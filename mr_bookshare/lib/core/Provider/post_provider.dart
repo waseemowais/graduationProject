@@ -6,7 +6,7 @@ import 'package:mr_bookshare/core/services/postservice.dart';
 import 'package:mr_bookshare/core/session_manager/session_manager.dart';
 
 class PostProvider extends ChangeNotifier {
-  PostService _postService = PostService();
+  final PostService _postService = PostService();
 
   // PostList get offlinePots {
   //   List<PostModel> postList = [];
@@ -24,7 +24,9 @@ class PostProvider extends ChangeNotifier {
   // }
 
   Future<PostList> getPosts() async {
-    return await _postService.getPosts();
+    return await _postService.getPosts().whenComplete(() {
+      refresh();
+    });
   }
 
 

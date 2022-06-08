@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member
 
-
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
@@ -18,7 +17,6 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-  final TextEditingController _search = TextEditingController();
   PostList? postList;
   PostProvider postProvider = PostProvider();
   final String collectionName = 'posts';
@@ -65,7 +63,9 @@ class _SubjectScreenState extends State<SubjectScreen> {
                         ),
                         IconButton(
                           onPressed: () {
-                           showDialog(context: context, builder: (context)=>AddPostDialog());
+                            showDialog(
+                                context: context,
+                                builder: (context) => AddPostDialog());
                           },
                           icon: Icon(
                             Icons.add_circle_outline_sharp,
@@ -73,7 +73,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           ),
                           color: Colors.white,
                         ),
-
                         IconButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed(searchScreen);
@@ -84,15 +83,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           ),
                           color: Colors.white,
                         ),
-
-
                       ],
                     ),
                     SizedBox(
                       height: 20,
                     ),
                     // _buildSearchFld(),
-
                   ]),
                 ),
               ),
@@ -156,14 +152,19 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           itemBuilder: (BuildContext context, int index) {
                             var item = postList!.posts[index];
                             return SubjectView(
-                                bookName: item.subjectName!,
-                                writerName: item.writerName!,
-                                image: item.image!,
-                                ontap: () {
-                                  showDialog(context: context, builder: (context)=>CustomDialog(
-                                    description: item.description!, image: 'assets/images/book.gif', title: 'Description',
-                                  ));
-                                });
+                              bookName: item.subjectName!,
+                              writerName: item.writerName!,
+                              image: item.image!,
+                              ontap: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => CustomDialog(
+                                          description: item.description!,
+                                          image: 'assets/images/book.gif',
+                                          title: 'Description',
+                                        ));
+                              }, fileUrl: item.fileUrl!,
+                            );
                           }),
                     ),
                   );
@@ -172,8 +173,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
         ],
       ),
     );
-
   }
+
   Future<void> _refresh() async {
     if (mounted) {
       _key = GlobalKey();
@@ -182,4 +183,3 @@ class _SubjectScreenState extends State<SubjectScreen> {
     Future.value(null);
   }
 }
-

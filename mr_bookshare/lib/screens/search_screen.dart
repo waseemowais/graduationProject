@@ -135,7 +135,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             showDialog(context: context, builder: (context)=> CustomDialog(
                               description: data['description'], title: 'Description', image: 'assets/images/book.gif',
                             ));
-                          });
+                          }, fileUrl: data['url'],);
                     }).toList(),
                   );
                 }),

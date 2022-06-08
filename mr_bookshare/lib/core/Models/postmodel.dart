@@ -7,8 +7,9 @@ class PostModel extends ChangeNotifier {
   String? image;
   String? id;
   String? description;
+  String? fileUrl;
 
-  PostModel({this.id, this.subjectName, this.writerName, this.image,this.description});
+  PostModel({this.id, this.subjectName, this.writerName, this.image,this.description,this.fileUrl});
 
   PostModel.fromJson(Map<String, dynamic> json) {
     subjectName = json['subjectName'];
@@ -16,6 +17,7 @@ class PostModel extends ChangeNotifier {
     image = json['image'];
     id = json['id'];
     description = json['description'];
+    fileUrl = json['fileUrl'];
   }
 
   Map<String, dynamic> toJson() {
@@ -25,6 +27,7 @@ class PostModel extends ChangeNotifier {
     data['image'] = image;
     data['id'] = id;
     data['description'] = description;
+    data['fileUrl'] = fileUrl;
     return data;
   }
   PostModel.fromSnapshot(DocumentSnapshot snapshot) {
@@ -33,6 +36,7 @@ class PostModel extends ChangeNotifier {
     image = snapshot['image'];
     id = snapshot['id'];
     description = snapshot['description'];
+    fileUrl = snapshot['fileUrl'];
 
   }
 }

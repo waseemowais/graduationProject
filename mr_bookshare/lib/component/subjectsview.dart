@@ -1,7 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutable, prefer_const_literals_to_create_immutables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class SubjectView extends StatelessWidget {
@@ -9,12 +7,15 @@ class SubjectView extends StatelessWidget {
   final String writerName;
   final VoidCallback ontap;
   final String image;
+  final String fileUrl;
 
   const SubjectView(
       {Key? key,
       required this.bookName,
       required this.writerName,
-      required this.image, required this.ontap})
+      required this.image,
+      required this.ontap,
+      required this.fileUrl})
       : super(key: key);
 
   @override
@@ -57,6 +58,13 @@ class SubjectView extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      Text(
+                        fileUrl,
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 3,
                             fontWeight: FontWeight.w500),
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
