@@ -28,6 +28,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
   Future? resultsLoaded;
   GlobalKey _key = GlobalKey();
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -156,6 +158,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                           itemCount: postList!.posts.length,
                           itemBuilder: (BuildContext context, int index) {
                             var item = postList!.posts[index];
+
                             return SubjectView(
                               bookName: item.subjectName!,
                               writerName: item.writerName!,
@@ -171,7 +174,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               },
                               fileUrl: item.fileUrl!,
                               downLoadUrl: () {
-                                downLoadFile(item.fileUrl!, item.subjectName!);
+                                openFile(url: item.fileUrl!,fileName: item.subjectName);
                               },
                             );
                           }),
@@ -192,14 +195,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
     Future.value(null);
   }
 
-  // Future openFile({required String url, String? fileName}) async {
-  //   final file = await downLoadFile(url, fileName!);
-  //   if (file == null) return;
-  //
-  //   print('path: ${file.path}');
-  //
-  //   OpenFile.open(file.path);
-  // }
+  Future openFile({required String url, String? fileName}) async {
+    final file = await downLoadFile(url, fileName!);
+    if (file == null) return;
+
+    print('path: ${file.path}');
+
+    OpenFile.open(file.path);
+  }
 
   Future<File?> downLoadFile(String url, String name) async {
     final appStorage = await getApplicationDocumentsDirectory();
@@ -214,7 +217,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
       final raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
       await raf.close();
-      OpenFile.open(file.path);
+      // OpenFile.open(file.path);
 
       return file;
     } catch (e) {

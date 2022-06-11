@@ -3,6 +3,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
+
 import 'package:path/path.dart' as path;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 
 import 'package:mr_bookshare/core/services/user_service.dart';
-import 'package:provider/provider.dart';
 
 import '../Utils/user_data_helper.dart';
 import '../core/Models/user_model.dart';
@@ -39,9 +39,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // var userProvider = Provider.of<UserProvider>(context,listen: true);
     widget.model = getUserData();
     ImageProvider? imageProvider = (widget.model.imageUrl!.isNotEmpty
-        ? NetworkImage(widget.model.imageUrl!)
-        : AssetImage("assets/images/person_avatar.png"))
-    as ImageProvider<Object>?;
+            ? NetworkImage(widget.model.imageUrl!)
+            : AssetImage("assets/images/person_avatar.png"))
+        as ImageProvider<Object>?;
 
     return FutureBuilder(
         future: _userService.getUser(widget.model.uid!),
@@ -60,14 +60,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             body: Stack(alignment: Alignment.center, children: [
               CustomPaint(
                 child: SizedBox(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
-                  height: MediaQuery
-                      .of(context)
-                      .size
-                      .height,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                 ),
                 painter: Header(),
               ),
@@ -110,7 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       Expanded(
                                         child: Column(
                                           mainAxisAlignment:
-                                          MainAxisAlignment.start,
+                                              MainAxisAlignment.start,
                                           children: [
                                             SimpleDialogOption(
                                               child: Text(
@@ -148,17 +142,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       email: widget.model.email,
                                     );
 
-                                    await _userProvider.updateUser(
-                                        widget.model.uid!, widget.model)
+                                    await _userProvider
+                                        .updateUser(
+                                            widget.model.uid!, widget.model)
                                         .whenComplete(() {
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                          SnackBar(
-                                              content: Text(
-                                                  'Upload Completed')));
+                                          .showSnackBar(SnackBar(
+                                              content:
+                                                  Text('Upload Completed')));
                                     });
                                   }
-
 
                                   log(imageUrl);
                                 }
@@ -248,8 +241,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 class Header extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    Paint paint = Paint()
-      ..color = const Color(0xff069e79);
+    Paint paint = Paint()..color = const Color(0xff069e79);
     Path path = Path()
       ..relativeLineTo(0, 150)
       ..quadraticBezierTo(size.width / 2, 225, size.width, 150)

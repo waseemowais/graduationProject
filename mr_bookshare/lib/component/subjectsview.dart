@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-class SubjectView extends StatelessWidget {
+class SubjectView extends StatefulWidget {
   final String bookName;
   final String writerName;
   final VoidCallback ontap;
@@ -19,6 +19,12 @@ class SubjectView extends StatelessWidget {
        required this.fileUrl, required this.downLoadUrl})
       : super(key: key);
 
+
+  @override
+  State<SubjectView> createState() => _SubjectViewState();
+}
+
+class _SubjectViewState extends State<SubjectView> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -26,7 +32,7 @@ class SubjectView extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 12, right: 12),
           child: InkWell(
-            onTap: ontap,
+            onTap: widget.ontap,
             child: Container(
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -40,14 +46,14 @@ class SubjectView extends StatelessWidget {
                     child: SizedBox(
                       width: 120,
                       height: 120,
-                      child: Image.network(image),
+                      child: widget.image.isEmpty ? Image.asset('assets/images/flat-book-icon-27.jpg'):Image.network(widget.image),
                     ),
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        bookName,
+                        widget.bookName,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 20,
@@ -55,7 +61,7 @@ class SubjectView extends StatelessWidget {
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       Text(
-                        writerName,
+                        widget.writerName,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 15,
@@ -63,7 +69,7 @@ class SubjectView extends StatelessWidget {
                       ),
                       Padding(padding: EdgeInsets.symmetric(vertical: 5)),
                       IconButton(
-                          onPressed: downLoadUrl,
+                          onPressed: widget.downLoadUrl,
                           icon: Icon(
                             Icons.download_rounded,
                             size: 35,
