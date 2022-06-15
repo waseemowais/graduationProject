@@ -12,14 +12,14 @@ import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 
 import 'package:mr_bookshare/core/services/user_service.dart';
+import 'package:provider/provider.dart';
 
 import '../Utils/user_data_helper.dart';
 import '../core/Models/user_model.dart';
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatefulWidget {
-  ProfileScreen({Key? key, required this.model}) : super(key: key);
-  UserModel model;
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -27,25 +27,40 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final FilesUploadService _filesUploadService = FilesUploadService();
-  final UserProvider _userProvider = UserProvider();
   ImagePicker picker = ImagePicker();
   File? _image;
   String imageUrl = '';
-  final UserService _userService = UserService();
   UserModel? userModel;
+  bool uploadState = false;
 
   @override
   Widget build(BuildContext context) {
-    // var userProvider = Provider.of<UserProvider>(context,listen: true);
-    widget.model = getUserData();
-    ImageProvider? imageProvider = (widget.model.imageUrl!.isNotEmpty
-            ? NetworkImage(widget.model.imageUrl!)
+    var userProvider = Provider.of<UserProvider>(context, listen: true);
+    var tempUserModel = getUserData();
+    if(!uploadState){
+      imageUrl = tempUserModel.imageUrl!;
+      uploadState = false;
+    }
+
+    ImageProvider? imageProvider = (tempUserModel.imageUrl!.isNotEmpty
+            ? NetworkImage(imageUrl)
             : AssetImage("assets/images/person_avatar.png"))
         as ImageProvider<Object>?;
 
     return FutureBuilder(
-        future: _userService.getUser(widget.model.uid!),
+        future: userProvider.getUser(tempUserModel.uid!),
         builder: (context, snapshot) {
+          var data = snapshot.data;
+          if (data == null) {
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(color:Color(0xff069e79) ,),
+              ),
+            );
+          }
+
+          userModel = data as UserModel;
+
           return Scaffold(
             appBar: AppBar(
               elevation: 0.0,
@@ -53,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               leading: IconButton(
                 icon: const Icon(Icons.arrow_back_ios),
                 onPressed: () {
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(true);
                 },
               ),
             ),
@@ -125,26 +140,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 // change his image
                                 await chooseImage();
                                 if (_image != null) {
-                                  imageUrl = await _filesUploadService
-                                      .fileUpload(_image!, 'UsersImage');
+                                  await _filesUploadService
+                                      .fileUpload(_image!, 'UsersImage')
+                                      .then((value) {
+                                    setState(() {
+                                      uploadState = true;
+                                      imageUrl = value;
+                                    });
+                                  });
+                                  log('imageUrl before: $imageUrl');
                                   if (imageUrl.isNotEmpty) {
-                                    widget.model.imageUrl = imageUrl;
-                                    log('${widget.model.imageUrl}');
-                                    log(widget.model.password!);
-                                    widget.model = UserModel(
-                                      uid: widget.model.uid,
-                                      fullName: widget.model.fullName,
-                                      major: widget.model.major,
-                                      password: widget.model.password,
-                                      state: widget.model.state,
-                                      loginState: widget.model.loginState,
-                                      imageUrl: widget.model.imageUrl,
-                                      email: widget.model.email,
+                                    // log('${userModel!.imageUrl}');
+                                    // log(userModel!.password!);
+                                    userModel = UserModel(
+                                      uid: userModel!.uid,
+                                      fullName: userModel!.fullName,
+                                      major: userModel!.major,
+                                      password: userModel!.password,
+                                      state: userModel!.state,
+                                      loginState: userModel!.loginState,
+                                      imageUrl: imageUrl,
+                                      email: userModel!.email,
                                     );
 
-                                    await _userProvider
-                                        .updateUser(
-                                            widget.model.uid!, widget.model)
+                                    await userProvider
+                                        .updateUser(userModel!.uid!, userModel!)
                                         .whenComplete(() {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
@@ -153,14 +173,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     });
                                   }
 
-                                  log(imageUrl);
+                                  log('imageUrl after $imageUrl');
                                 }
                               } else {
                                 // view his image
                                 Navigator.of(context).pushNamed(imageViewer,
-                                    arguments: widget.model.imageUrl!.isEmpty
+                                    arguments: userModel!.imageUrl!.isEmpty
                                         ? 'assets/images/istockphoto-1223671392-612x612.jpg'
-                                        : widget.model.imageUrl);
+                                        : userModel!.imageUrl);
                               }
                             }
                           },
@@ -178,15 +198,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Column(
                     children: [
                       InformationView(
-                        txt: widget.model.fullName!,
+                        txt: userModel!.fullName!,
                         icon: Icons.person_outlined,
                       ),
                       InformationView(
-                        txt: widget.model.email!,
+                        txt: userModel!.email!,
                         icon: Icons.email_outlined,
                       ),
                       InformationView(
-                        txt: widget.model.major!,
+                        txt: userModel!.major!,
                         icon: Icons.book_outlined,
                       ),
                       Padding(
@@ -203,7 +223,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 onPressed: () {
                                   Navigator.of(context).pushNamed(
                                       editprofileScreen,
-                                      arguments: widget.model);
+                                      arguments: userModel);
                                 })),
                       ),
                     ],

@@ -1,46 +1,68 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
-
-class PostModel extends ChangeNotifier {
+class PostModel {
+  String? id;
   String? subjectName;
   String? writerName;
   String? image;
-  String? id;
   String? description;
-  String? fileUrl;
+  FileModel? fileModel;
 
-  PostModel({this.id, this.subjectName, this.writerName, this.image,this.description,this.fileUrl});
+  PostModel(
+      {this.id,
+        this.subjectName,
+        this.writerName,
+        this.image,
+        this.description,
+        this.fileModel});
 
   PostModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     subjectName = json['subjectName'];
     writerName = json['writerName'];
     image = json['image'];
-    id = json['id'];
     description = json['description'];
-    fileUrl = json['fileUrl'];
+    fileModel = json['FileModel'] != null
+        ?  FileModel.fromJson(json['FileModel'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['id'] = id;
     data['subjectName'] = subjectName;
     data['writerName'] = writerName;
     data['image'] = image;
-    data['id'] = id;
     data['description'] = description;
-    data['fileUrl'] = fileUrl;
+    if (fileModel != null) {
+      data['FileModel'] = fileModel!.toJson();
+    }
     return data;
-  }
-  PostModel.fromSnapshot(DocumentSnapshot snapshot) {
-    subjectName = snapshot['subjectName'];
-    writerName = snapshot['writerName'];
-    image = snapshot['image'];
-    id = snapshot['id'];
-    description = snapshot['description'];
-    fileUrl = snapshot['fileUrl'];
-
   }
 }
 
+class FileModel {
+  String? id;
+  String? name;
+  String? url;
+  String? createdDate;
+
+  FileModel({this.id, this.name, this.url, this.createdDate});
+
+  FileModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    url = json['url'];
+    createdDate = json['createdDate'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data =  <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['url'] = url;
+    data['createdDate'] = createdDate;
+    return data;
+  }
+}
 
 class PostList {
   List<PostModel> posts;

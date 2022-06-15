@@ -44,9 +44,19 @@ class UserProvider extends ChangeNotifier {
     return await userService.updateUser(id, model).whenComplete(() {
       log('update user done');
       notifyListeners();
+      refreshModel(model);
       refresh();
     }).catchError((err) {
       log('update user error : $err');
+    });
+  }
+
+  Future<UserModel> getUser(String id)async{
+    return await userService.getUser(id).whenComplete(() {
+      notifyListeners();
+      refresh();
+    }).catchError((err){
+      log('$err');
     });
   }
 
@@ -86,4 +96,17 @@ class UserProvider extends ChangeNotifier {
     }
     Prefs.setStringList(prefsName, encodedDataList); // background service
   }
+
+  void refreshModel(UserModel model) async{
+     await Prefs.removeValue('fullName');
+     await Prefs.removeValue('email');
+     await Prefs.removeValue('major');
+     await Prefs.removeValue('imageUrl');
+
+    await Prefs.setStringValue('fullName', model.fullName!);
+    await Prefs.setStringValue('email', model.email!);
+    await Prefs.setStringValue('major', model.major!);
+    await Prefs.setStringValue('imageUrl', model.imageUrl!);
+
+}
 }

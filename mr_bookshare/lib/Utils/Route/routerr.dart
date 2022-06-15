@@ -43,13 +43,12 @@ class MyRouter {
         }
         case profileScreen:
         {
-          final arg = settings.arguments as UserModel;
-          return _route(ProfileScreen(model: arg,));
+          // final arg = settings.arguments as UserModel;
+          return _route(ProfileScreen());
         }
         case editprofileScreen:
         {
-          final arg = settings.arguments as UserModel;
-          return _route(EditProfile(model: arg,));
+          return _route(EditProfile());
         }
         case subjectScreen:
         {

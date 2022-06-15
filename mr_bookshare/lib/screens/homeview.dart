@@ -7,7 +7,9 @@ import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/Utils/user_data_helper.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
 import 'package:mr_bookshare/core/Models/user_model.dart';
+import 'package:mr_bookshare/core/Provider/user_provider.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
    const HomeView({Key? key,}) : super(key: key);
@@ -18,16 +20,19 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  UserService _userService = UserService();
+
+  final UserService _userService = UserService();
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> userData = {};
-    UserModel model = getUserData();
 
-    ImageProvider? imageProvider = (model.imageUrl!.isNotEmpty
-        ? NetworkImage(model.imageUrl!)
-        : AssetImage("assets/images/person_avatar.png")) as ImageProvider<Object>?;
+    var userModel = getUserData();
+
+    ImageProvider? imageProvider = (userModel.imageUrl!.isNotEmpty
+        ? NetworkImage(userModel.imageUrl!)
+        : AssetImage("assets/images/person_avatar.png"))
+    as ImageProvider<Object>?;
+
     return Scaffold(
       backgroundColor: const Color(0xff069e79),
       appBar: AppBar(
@@ -46,8 +51,14 @@ class _HomeViewState extends State<HomeView> {
           ),
         ],
         leading: InkWell(
-          onTap: () {
-            Navigator.of(context).pushNamed(profileScreen, arguments: model);
+          onTap: ()async {
+            var result = await Navigator.of(context).pushNamed(profileScreen, arguments: userModel) as bool;
+            if(result != null){
+              if(result){
+                setState(() {
+                });
+              }
+            }
           },
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -81,7 +92,7 @@ class _HomeViewState extends State<HomeView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Hello ${model.fullName},',
+                'Hello ${userModel.fullName},',
                 style: TextStyle(
                     fontSize: 25,
                     color: Color(0xff069e79),

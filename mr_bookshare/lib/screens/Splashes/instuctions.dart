@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 
+import '../../core/session_manager/session_manager.dart';
+
 
 class Instructions extends StatefulWidget {
   const Instructions({Key? key}) : super(key: key);
@@ -24,7 +26,12 @@ class _InstructionsState extends State<Instructions> {
         backgroundColor: const Color(0xff069e79),
         leading: TextButton(
           onPressed: () {
-            Navigator.of(context).pushNamed(loginScreen);
+            var loginState = Prefs.getBooleanValue('loginState');
+            if(loginState ?? false){
+              Navigator.of(context).pushNamed(homeScreen);
+            }else{
+              Navigator.of(context).pushNamed(loginScreen);
+            }
           },
           child: Text(
             'Skip',

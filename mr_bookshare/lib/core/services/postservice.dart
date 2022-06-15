@@ -44,7 +44,7 @@ class PostService {
       postMap['image'] = item.get('image');
       postMap['id'] = item.get('id');
       postMap['description'] = item.get('description');
-      postMap['fileUrl'] = item.get('fileUrl');
+      postMap['FileModel'] = item.get('FileModel');
 
       postModel = PostModel.fromJson(postMap);
       data.add(postModel);
@@ -90,7 +90,7 @@ class PostService {
     postMap['writerName'] = querySnapshot.docs[0].get('writerName');
     postMap['image'] = querySnapshot.docs[0].get('image');
     postMap['description'] = querySnapshot.docs[0].get('description');
-    postMap['fileUrl'] = querySnapshot.docs[0].get('fileUrl');
+    postMap['FileModel'] = querySnapshot.docs[0].get('FileModel');
 
     postModel = PostModel.fromJson(postMap);
     return postModel;

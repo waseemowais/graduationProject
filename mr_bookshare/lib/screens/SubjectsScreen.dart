@@ -172,9 +172,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                                           title: 'Description',
                                         ));
                               },
-                              fileUrl: item.fileUrl!,
+                              fileUrl: item.fileModel!.url!,
                               downLoadUrl: () {
-                                openFile(url: item.fileUrl!,fileName: item.subjectName);
+                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                  content: Text("Loading..."),
+                                ));
+                                openFile(url: item.fileModel!.url!,fileName: item.fileModel!.name);
                               },
                             );
                           }),

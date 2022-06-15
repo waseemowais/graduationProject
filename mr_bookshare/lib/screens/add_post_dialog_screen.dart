@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -211,7 +212,12 @@ class _AddPostDialogState extends State<AddPostDialog> {
                               subjectName: _subjectName.text,
                               description: _description.text,
                               image: subjectImageUrl,
-                              fileUrl: url,
+                              fileModel: FileModel(
+                                id: Uuid().v4(),
+                                url: url,
+                                createdDate: DateTime.now().toString(),
+                                name: DateTime.now().toString() + '_' +fileName
+                              ),
                             );
                             await _postProvider.addPost(model).whenComplete(() {
                               Navigator.of(context).pop();
@@ -251,6 +257,7 @@ class _AddPostDialogState extends State<AddPostDialog> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
+    log('file name : $fileName');
     final destination = 'files/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
