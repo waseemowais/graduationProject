@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -140,8 +141,9 @@ class _SearchScreenState extends State<SearchScreen> {
                             showDialog(context: context, builder: (context)=> CustomDialog(
                               description: data['description'], title: 'Description', image: 'assets/images/book.gif',
                             ));
-                          }, fileUrl: data['fileUrl'], downLoadUrl: () {
-                            downLoadFile(data['fileUrl'], data['subjectName']);
+                          }, fileUrl: data['FileModel']['url'],
+                        downLoadUrl: () {
+                            downLoadFile(data['FileModel']['url'], data['subjectName']);
                       },);
                     }).toList(),
                   );
