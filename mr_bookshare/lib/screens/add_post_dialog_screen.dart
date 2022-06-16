@@ -184,7 +184,7 @@ class _AddPostDialogState extends State<AddPostDialog> {
                   task != null
                       ? buildUploadStatus(task!)
                       : Text(
-                          'Upload a File',
+                          'Upload a File(Image,PDF,Video)',
                           style: TextStyle(
                               color: selectFileColor == true
                                   ? Colors.red

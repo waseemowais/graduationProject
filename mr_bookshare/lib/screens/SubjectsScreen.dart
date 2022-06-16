@@ -4,12 +4,14 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
 import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../core/Models/postmodel.dart';
 import '../core/Provider/post_provider.dart';
@@ -29,7 +31,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
   GlobalKey _key = GlobalKey();
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,70 +38,73 @@ class _SubjectScreenState extends State<SubjectScreen> {
         children: [
           SafeArea(
               child: Stack(
-            children: [
-              Positioned(
-                child: Container(
-                  padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-                  height: 100,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                children: [
+                  Positioned(
+                    child: Container(
+                      padding: const EdgeInsets.only(
+                          top: 30, left: 20, right: 20),
+                      height: 100,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                        ),
+                        gradient: LinearGradient(colors: [
+                          Color(0xff069e79),
+                          Color(0xff069e79),
+                        ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight),
+                      ),
+                      child: Column(children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              icon: Icon(
+                                Icons.arrow_back_ios,
+                                size: 35,
+                              ),
+                              color: Colors.white,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AddPostDialog());
+                              },
+                              icon: Icon(
+                                Icons.add_circle_outline_sharp,
+                                size: 35,
+                              ),
+                              color: Colors.white,
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed(searchScreen);
+                              },
+                              icon: Icon(
+                                Icons.search,
+                                size: 35,
+                              ),
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // _buildSearchFld(),
+                      ]),
                     ),
-                    gradient: LinearGradient(colors: [
-                      Color(0xff069e79),
-                      Color(0xff069e79),
-                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   ),
-                  child: Column(children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            size: 35,
-                          ),
-                          color: Colors.white,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (context) => AddPostDialog());
-                          },
-                          icon: Icon(
-                            Icons.add_circle_outline_sharp,
-                            size: 35,
-                          ),
-                          color: Colors.white,
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.of(context).pushNamed(searchScreen);
-                          },
-                          icon: Icon(
-                            Icons.search,
-                            size: 35,
-                          ),
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    // _buildSearchFld(),
-                  ]),
-                ),
-              ),
-            ],
-          )),
+                ],
+              )),
           SizedBox(
             height: 1,
           ),
@@ -166,7 +170,8 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               ontap: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) => CustomDialog(
+                                    builder: (context) =>
+                                        CustomDialog(
                                           description: item.description!,
                                           image: 'assets/images/book.gif',
                                           title: 'Description',
@@ -174,11 +179,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               },
                               fileUrl: item.fileModel!.url!,
                               downLoadUrl: () {
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text("Loading..."),
-                                ));
-                                openFile(url: item.fileModel!.url!,fileName: item.fileModel!.name);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                          "It might take a few seconds"),
+                                    ));
+                                openFile(url: item.fileModel!.url!,
+                                    fileName: item.fileModel!.name);
                               },
+                              createdDate: item.fileModel!.createdDate!,
                             );
                           }),
                     ),
@@ -227,4 +236,15 @@ class _SubjectScreenState extends State<SubjectScreen> {
       return null;
     }
   }
+
+  // Future download(String url) async {
+  //   var status = await Permission.storage.request();
+  //   if (status.isGranted) {
+  //     final baseStorage = await getExternalStorageDirectory();
+  //     await FlutterDownloader.enqueue(
+  //         url: url, savedDir: baseStorage!.path, showNotification: true).whenComplete(() {
+  //           OpenFile.open(url);
+  //     });
+  //   }
+  // }
 }

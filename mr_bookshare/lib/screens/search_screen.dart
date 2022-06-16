@@ -65,9 +65,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         SizedBox(
                           width: 300,
                           child: TextFormField(
-                            onChanged: (val){
+                            onChanged: (val) {
                               setState(() {
-                                inputText=val;
+                                inputText = val;
                                 print(inputText);
                               });
                             },
@@ -108,7 +108,6 @@ class _SearchScreenState extends State<SearchScreen> {
                     ),
 
                     // _buildSearchFld(),
-
                   ]),
                 ),
               ),
@@ -116,35 +115,49 @@ class _SearchScreenState extends State<SearchScreen> {
           )),
           Expanded(
             child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection('posts').where('subjectName',isGreaterThanOrEqualTo: inputText).snapshots(),
-                builder: (BuildContext context,AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if(snapshot.hasError){
+                stream: FirebaseFirestore.instance
+                    .collection('posts')
+                    .where('subjectName', isGreaterThanOrEqualTo: inputText)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasError) {
                     return Center(
-                      child:Text("Something went wrong ",style: TextStyle(fontSize: 30),) ,
+                      child: Text(
+                        "Something went wrong ",
+                        style: TextStyle(fontSize: 30),
+                      ),
                     );
                   }
-                  if (snapshot.connectionState ==
-                      ConnectionState.waiting) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: Text("Loading"),
                     );
                   }
                   return ListView(
-                    children: snapshot.data!.docs.map((DocumentSnapshot document) {
+                    children:
+                        snapshot.data!.docs.map((DocumentSnapshot document) {
                       Map<String, dynamic> data =
-                      document.data() as Map<String, dynamic>;
+                          document.data() as Map<String, dynamic>;
                       return SubjectView(
-                          bookName: data['subjectName'],
-                          writerName: data['writerName'],
-                          image: data['image'],
-                          ontap: () {
-                            showDialog(context: context, builder: (context)=> CustomDialog(
-                              description: data['description'], title: 'Description', image: 'assets/images/book.gif',
-                            ));
-                          }, fileUrl: data['FileModel']['url'],
+                        bookName: data['subjectName'],
+                        writerName: data['writerName'],
+                        image: data['image'],
+                        ontap: () {
+                          showDialog(
+                              context: context,
+                              builder: (context) => CustomDialog(
+                                    description: data['description'],
+                                    title: 'Description',
+                                    image: 'assets/images/book.gif',
+                                  ));
+                        },
+                        fileUrl: data['FileModel']['url'],
                         downLoadUrl: () {
-                            downLoadFile(data['FileModel']['url'], data['subjectName']);
-                      },);
+                          downLoadFile(
+                              data['FileModel']['url'], data['FileModel']['name']);
+                        }, createdDate: data['FileModel']['createdDate'],
+                      );
                     }).toList(),
                   );
                 }),
@@ -153,6 +166,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
     );
   }
+
   Future<File?> downLoadFile(String url, String name) async {
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/$name');

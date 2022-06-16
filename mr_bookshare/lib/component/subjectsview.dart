@@ -9,6 +9,7 @@ class SubjectView extends StatefulWidget {
   final String image;
   final String fileUrl;
   final VoidCallback downLoadUrl;
+  final String createdDate;
 
   const SubjectView(
       {Key? key,
@@ -16,7 +17,7 @@ class SubjectView extends StatefulWidget {
       required this.writerName,
       required this.image,
       required this.ontap,
-       required this.fileUrl, required this.downLoadUrl})
+       required this.fileUrl, required this.downLoadUrl, required this.createdDate})
       : super(key: key);
 
 
@@ -52,14 +53,17 @@ class _SubjectViewState extends State<SubjectView> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(
-                        widget.bookName,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          widget.bookName,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500),
+                        ),
                       ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 3)),
                       Text(
                         widget.writerName,
                         style: TextStyle(
@@ -67,14 +71,19 @@ class _SubjectViewState extends State<SubjectView> {
                             fontSize: 15,
                             fontWeight: FontWeight.w500),
                       ),
-                      Padding(padding: EdgeInsets.symmetric(vertical: 5)),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 3)),
                       IconButton(
                           onPressed: widget.downLoadUrl,
                           icon: Icon(
-                            Icons.download_rounded,
-                            size: 35,
+                            Icons.download,
+                            size: 30,
                             color: Color(0xff069e79),
-                          ))
+                          )),
+                      Padding(padding: EdgeInsets.symmetric(vertical: 3)),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 7.0),
+                        child: Text(widget.createdDate),
+                      ),
                     ],
                   ),
                 ],

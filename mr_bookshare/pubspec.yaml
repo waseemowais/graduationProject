@@ -63,6 +63,8 @@ dependencies:
   path_provider:
   dio:
   open_file:
+  permission_handler:
+  flutter_downloader:
 
 
 
