@@ -4,12 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-import 'package:mr_bookshare/Utils/user_data_helper.dart';
+import '../../core/session_manager/user_data_helper.dart';
 import 'package:mr_bookshare/component/facultyview.dart';
-import 'package:mr_bookshare/core/Models/user_model.dart';
-import 'package:mr_bookshare/core/Provider/user_provider.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
-import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
    const HomeView({Key? key,}) : super(key: key);
@@ -68,7 +65,7 @@ class _HomeViewState extends State<HomeView> {
               decoration: BoxDecoration(
                   border: Border.all(color: Color(0xff069e79), width: 3),
                   shape: BoxShape.circle,
-                  color: Color(0xff069e79),
+                  color: Colors.blueGrey,
                   image:  DecorationImage(
                     fit: BoxFit.cover,
                     image: imageProvider!,

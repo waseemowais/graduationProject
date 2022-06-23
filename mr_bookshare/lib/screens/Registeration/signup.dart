@@ -5,7 +5,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-import 'package:mr_bookshare/Utils/loader.dart';
+import '../../component/loader.dart';
 import 'package:mr_bookshare/component/check_box.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/internet_connection_dialog.dart';
@@ -42,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 80,
+                  height: 70,
                 ),
                 const Text(
                   'SignUp',
@@ -70,9 +70,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: 'Enter your full name',
                       suffixIcon: const Icon(Icons.person_outlined,
                           color: const Color(0xff069e79)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.black12, width: 2.0),
@@ -100,9 +97,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       hintText: 'Enter your major',
                       suffixIcon: const Icon(Icons.book_outlined,
                           color: const Color(0xff069e79)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.black12, width: 2.0),
@@ -182,7 +176,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   height: 10,
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left: 50.0, top: 20),
+                  padding: const EdgeInsets.only(left: 50.0, top: 20,),
                   child: SizedBox(
                     child: Row(
                       children: [
@@ -247,11 +241,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     thickness: 2,
                   ),
                 ),
+
                 const SizedBox(
-                  height: 14,
-                ),
-                const SizedBox(
-                  height: 14,
+                  height: 10,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -311,7 +303,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ));
         } else {
           log('uid2 : $result');
-          Navigator.of(context).pushNamed(homeScreen, arguments: result);
+          Navigator.of(context).pushNamed(loginScreen);
         }
       } else {
         internetConnectionDialog(context);

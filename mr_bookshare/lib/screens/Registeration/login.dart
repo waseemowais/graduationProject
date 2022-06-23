@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-import 'package:mr_bookshare/Utils/loader.dart';
+import '../../component/loader.dart';
 import 'package:mr_bookshare/component/internet_connection_dialog.dart';
 import 'package:mr_bookshare/core/services/connectivity_service.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
@@ -66,8 +66,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         Icons.email_outlined,
                         color: Color(0xff069e79),
                       ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.black12, width: 2.0),
@@ -79,7 +77,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10.0),
                       ),
                     ),
-
                   ),
                 ),
                 SizedBox(
@@ -98,8 +95,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         Icons.password_outlined,
                         color: Color(0xff069e79),
                       ),
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0)),
                       enabledBorder: OutlineInputBorder(
                         borderSide:
                             const BorderSide(color: Colors.black12, width: 2.0),
@@ -207,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ));
         } else {
           log('uid2 : $result');
-          Navigator.of(context).pushNamed(homeScreen, arguments: result);
+          Navigator.of(context).pushNamed(homeScreen);
         }
       }
     } else {

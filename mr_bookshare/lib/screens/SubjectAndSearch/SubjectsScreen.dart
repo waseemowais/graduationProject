@@ -8,13 +8,13 @@ import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
-import 'package:mr_bookshare/screens/add_post_dialog_screen.dart';
+import 'add_post_dialog_screen.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../core/Models/postmodel.dart';
-import '../core/Provider/post_provider.dart';
+import '../../core/Models/postmodel.dart';
+import '../../core/Provider/post_provider.dart';
 
 class SubjectScreen extends StatefulWidget {
   const SubjectScreen({Key? key}) : super(key: key);
@@ -24,6 +24,7 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
+
   PostList? postList;
   PostProvider postProvider = PostProvider();
   final String collectionName = 'posts';

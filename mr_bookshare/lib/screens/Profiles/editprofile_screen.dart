@@ -3,13 +3,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/material.dart';
+import '../../core/session_manager/user_data_helper.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
+import 'package:mr_bookshare/component/informationview.dart';
+import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
 import 'package:provider/provider.dart';
-import '../Utils/user_data_helper.dart';
-import '../component/informationview.dart';
-import '../core/Models/user_model.dart';
-import '../core/services/user_service.dart';
+
 
 class EditProfile extends StatefulWidget {
    const EditProfile({Key? key}) : super(key: key);
@@ -21,8 +21,6 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   UserModel? userModel;
-  // final UserService _userService = UserService();
-  // final UserProvider _userProvider = UserProvider();
   final _fullName = TextEditingController();
   final _major = TextEditingController();
   final _password = TextEditingController();

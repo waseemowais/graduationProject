@@ -35,6 +35,8 @@ class UserService {
       log('$user');
       // add all user data to SharedPerfs
       await addUserDataToPrefs(uid, false);
+
+
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         msg = 'No user found for that email.';

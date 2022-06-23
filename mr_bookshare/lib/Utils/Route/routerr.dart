@@ -2,21 +2,19 @@
 
 import 'package:flutter/material.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
-import 'package:mr_bookshare/core/Models/user_model.dart';
+import 'package:mr_bookshare/screens/Profiles/editprofile_screen.dart';
+import 'package:mr_bookshare/screens/Profiles/profile_screen.dart';
 
 import 'package:mr_bookshare/screens/Registeration/login.dart';
 import 'package:mr_bookshare/screens/Registeration/signup.dart';
 import 'package:mr_bookshare/screens/Splashes/instuctions.dart';
 import 'package:mr_bookshare/screens/Splashes/splash_screen.dart';
-import 'package:mr_bookshare/screens/editprofile_screen.dart';
 
-import 'package:mr_bookshare/screens/homeview.dart';
-import 'package:mr_bookshare/screens/image_viewer.dart';
-import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'package:mr_bookshare/screens/search_screen.dart';
+import '../../screens/Home/homeview.dart';
+import '../../component/image_viewer.dart';
+import '../../screens/SubjectAndSearch/search_screen.dart';
 
-import 'package:mr_bookshare/screens/SubjectsScreen.dart';
-
+import '../../screens/SubjectAndSearch/SubjectsScreen.dart';
 
 class MyRouter {
   static Route generateRoute(RouteSettings settings) {
@@ -25,15 +23,15 @@ class MyRouter {
         {
           return _route(SplashScreen());
         }
-        case instructions:
+      case instructions:
         {
           return _route(Instructions());
         }
-        case loginScreen:
+      case loginScreen:
         {
           return _route(LoginScreen());
         }
-        case signupScreen:
+      case signupScreen:
         {
           return _route(SignUpScreen());
         }
@@ -41,28 +39,30 @@ class MyRouter {
         {
           return _route(HomeView());
         }
-        case profileScreen:
+      case profileScreen:
         {
           // final arg = settings.arguments as UserModel;
           return _route(ProfileScreen());
         }
-        case editprofileScreen:
+      case editprofileScreen:
         {
           return _route(EditProfile());
         }
-        case subjectScreen:
+      case subjectScreen:
         {
           // final arg = settings.arguments as String;
           return _route(SubjectScreen());
         }
-        case searchScreen:
+      case searchScreen:
         {
           return _route(SearchScreen());
         }
-        case imageViewer:
+      case imageViewer:
         {
           final arg = settings.arguments as String;
-          return _route(ImageViewerScreen(imageUrl: arg,));
+          return _route(ImageViewerScreen(
+            imageUrl: arg,
+          ));
         }
 
       default:

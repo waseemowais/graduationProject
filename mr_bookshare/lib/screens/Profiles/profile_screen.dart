@@ -2,6 +2,8 @@
 
 import 'dart:developer';
 import 'dart:io';
+import '../../core/session_manager/user_data_helper.dart';
+import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
 
 import 'package:path/path.dart' as path;
@@ -11,11 +13,10 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 
-import 'package:mr_bookshare/core/services/user_service.dart';
+
 import 'package:provider/provider.dart';
 
-import '../Utils/user_data_helper.dart';
-import '../core/Models/user_model.dart';
+
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatefulWidget {
@@ -95,6 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   CircleAvatar(
+                    backgroundColor: Colors.blueGrey,
                     backgroundImage: imageProvider,
                     maxRadius: 90,
                     minRadius: 25,

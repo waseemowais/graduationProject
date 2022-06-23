@@ -56,10 +56,8 @@ class UserList {
   UserList({required this.users});
 
   factory UserList.fromJson(List<dynamic> data) {
-    log('all data3 : ${data[0]['id']}');
     List<UserModel> userList = [];
     userList = data.map((element) {
-      log('all data4 : ${element['id']}');
       return UserModel.fromJson(Map<String, dynamic>.from(element));
     }).toList();
     return UserList(users: userList);

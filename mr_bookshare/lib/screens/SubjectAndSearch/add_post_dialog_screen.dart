@@ -10,14 +10,13 @@ import 'package:mr_bookshare/component/Button_view_for_dialog.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 import 'package:mr_bookshare/core/Models/postmodel.dart';
 import 'package:mr_bookshare/core/Provider/post_provider.dart';
-import 'package:mr_bookshare/screens/profile_screen.dart';
-import 'package:open_file/open_file.dart';
+import 'package:mr_bookshare/screens/Profiles/profile_screen.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
 
-import '../core/services/firebaseapi.dart';
+import '../../core/services/firebaseapi.dart';
 
 class AddPostDialog extends StatefulWidget {
   const AddPostDialog({

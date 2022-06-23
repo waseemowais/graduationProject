@@ -19,12 +19,16 @@ class Instructions extends StatefulWidget {
 class _InstructionsState extends State<Instructions> {
   @override
   Widget build(BuildContext context) {
-    var size = 290.0;
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: const Color(0xff069e79),
         leading: TextButton(
+          child: Text(
+            'Skip',
+            style: TextStyle(color: Colors.white, fontSize: 17),
+          ),
           onPressed: () {
             var loginState = Prefs.getBooleanValue('loginState');
             if(loginState ?? false){
@@ -33,11 +37,8 @@ class _InstructionsState extends State<Instructions> {
               Navigator.of(context).pushNamed(loginScreen);
             }
           },
-          child: Text(
-            'Skip',
-            style: TextStyle(color: Colors.white, fontSize: 17),
-          ),
         ),
+
       ),
       body: Stack(alignment: Alignment.center, children: [
         CustomPaint(
@@ -68,28 +69,21 @@ class _InstructionsState extends State<Instructions> {
             ),
           ],
         ),
-        Column(
-          children: [
-            const SizedBox(
-              height: 250,
-            ),
-            SizedBox(
-              width: size,
-              child: Hero(
-                tag: 'photo',
-                child: Material(
-                  color: Colors.transparent,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Image.asset(
-                      'assets/images/output-onlinepngtools-2-1.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 170,
+              ),
+              SizedBox(
+                width: 280,
+                child: Image.asset(
+                  'assets/images/output-onlinepngtools-2-1.png',
+                  fit: BoxFit.contain,
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ]),
     );
