@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/Utils/Route/routerr.dart';
 import 'package:mr_bookshare/core/Provider/user_provider.dart';
@@ -11,6 +12,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Prefs.init();
+  await FlutterDownloader.initialize(
+      debug: true // optional: set to false to disable printing logs to console (default: true)
+  );
   runApp(const MyApp());
 }
 

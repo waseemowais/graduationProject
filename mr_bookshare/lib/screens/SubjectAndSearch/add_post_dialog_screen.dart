@@ -143,9 +143,9 @@ class _AddPostDialogState extends State<AddPostDialog> {
                           style: TextStyle(color: Color(0xff069e79)),
                         ),
                       ),
-                      SizedBox(
-                        width: 100,
-                      ),
+                      // SizedBox(
+                      //   width: 80,
+                      // ),
                       Icon(
                         selectImageColor == false
                             ? Icons.check_circle_outline

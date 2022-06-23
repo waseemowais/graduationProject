@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member, unnecessary_null_comparison
 
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,6 @@ import 'package:mr_bookshare/component/subjectsview.dart';
 import 'add_post_dialog_screen.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 import '../../core/Models/postmodel.dart';
 import '../../core/Provider/post_provider.dart';
@@ -24,13 +25,43 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
-
   PostList? postList;
   PostProvider postProvider = PostProvider();
   final String collectionName = 'posts';
   Future? resultsLoaded;
   GlobalKey _key = GlobalKey();
 
+  int progress = 0;
+
+  ReceivePort _receivePort = ReceivePort();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    ///register a send port for the other isolates
+    IsolateNameServer.registerPortWithName(
+        _receivePort.sendPort, "downloading");
+
+    ///Listening for the data is comming other isolataes
+    _receivePort.listen((message) {
+      setState(() {
+        progress = message[2];
+      });
+
+      print(progress);
+    });
+    FlutterDownloader.registerCallback(downloadingCallBack);
+  }
+
+  static downloadingCallBack(id, status, progress) {
+    ///Looking up for a send port
+    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
+
+    ///ssending the data
+    sendPort?.send([id, status, progress]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,73 +70,70 @@ class _SubjectScreenState extends State<SubjectScreen> {
         children: [
           SafeArea(
               child: Stack(
-                children: [
-                  Positioned(
-                    child: Container(
-                      padding: const EdgeInsets.only(
-                          top: 30, left: 20, right: 20),
-                      height: 100,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                        ),
-                        gradient: LinearGradient(colors: [
-                          Color(0xff069e79),
-                          Color(0xff069e79),
-                        ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight),
-                      ),
-                      child: Column(children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              icon: Icon(
-                                Icons.arrow_back_ios,
-                                size: 35,
-                              ),
-                              color: Colors.white,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (context) => AddPostDialog());
-                              },
-                              icon: Icon(
-                                Icons.add_circle_outline_sharp,
-                                size: 35,
-                              ),
-                              color: Colors.white,
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed(searchScreen);
-                              },
-                              icon: Icon(
-                                Icons.search,
-                                size: 35,
-                              ),
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        // _buildSearchFld(),
-                      ]),
+            children: [
+              Positioned(
+                child: Container(
+                  padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                  height: 100,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
                     ),
+                    gradient: LinearGradient(colors: [
+                      Color(0xff069e79),
+                      Color(0xff069e79),
+                    ], begin: Alignment.topLeft, end: Alignment.bottomRight),
                   ),
-                ],
-              )),
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          icon: Icon(
+                            Icons.arrow_back_ios,
+                            size: 35,
+                          ),
+                          color: Colors.white,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            showDialog(
+                                context: context,
+                                builder: (context) => AddPostDialog());
+                          },
+                          icon: Icon(
+                            Icons.add_circle_outline_sharp,
+                            size: 35,
+                          ),
+                          color: Colors.white,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.of(context).pushNamed(searchScreen);
+                          },
+                          icon: Icon(
+                            Icons.search,
+                            size: 35,
+                          ),
+                          color: Colors.white,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    // _buildSearchFld(),
+                  ]),
+                ),
+              ),
+            ],
+          )),
           SizedBox(
             height: 1,
           ),
@@ -171,8 +199,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               ontap: () {
                                 showDialog(
                                     context: context,
-                                    builder: (context) =>
-                                        CustomDialog(
+                                    builder: (context) => CustomDialog(
                                           description: item.description!,
                                           image: 'assets/images/book.gif',
                                           title: 'Description',
@@ -180,13 +207,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                               },
                               fileUrl: item.fileModel!.url!,
                               downLoadUrl: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          "It might take a few seconds"),
-                                    ));
-                                openFile(url: item.fileModel!.url!,
-                                    fileName: item.fileModel!.name);
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text("It might take a few seconds"),
+                                ));
+                                downLoadFile(item.fileModel!.url!,
+                                    item.fileModel!.name!);
                               },
                               createdDate: item.fileModel!.createdDate!,
                             );
@@ -208,14 +234,14 @@ class _SubjectScreenState extends State<SubjectScreen> {
     Future.value(null);
   }
 
-  Future openFile({required String url, String? fileName}) async {
-    final file = await downLoadFile(url, fileName!);
-    if (file == null) return;
-
-    print('path: ${file.path}');
-
-    OpenFile.open(file.path);
-  }
+  // Future openFile({required String url, String? fileName}) async {
+  //   final file = await downLoadFile(url, fileName!);
+  //   if (file == null) return;
+  //
+  //   print('path: ${file.path}');
+  //
+  //   OpenFile.open(file.path);
+  // }
 
   Future<File?> downLoadFile(String url, String name) async {
     final appStorage = await getApplicationDocumentsDirectory();
@@ -230,22 +256,11 @@ class _SubjectScreenState extends State<SubjectScreen> {
       final raf = file.openSync(mode: FileMode.write);
       raf.writeFromSync(response.data);
       await raf.close();
-      // OpenFile.open(file.path);
+      OpenFile.open(file.path);
 
       return file;
     } catch (e) {
       return null;
     }
   }
-
-  // Future download(String url) async {
-  //   var status = await Permission.storage.request();
-  //   if (status.isGranted) {
-  //     final baseStorage = await getExternalStorageDirectory();
-  //     await FlutterDownloader.enqueue(
-  //         url: url, savedDir: baseStorage!.path, showNotification: true).whenComplete(() {
-  //           OpenFile.open(url);
-  //     });
-  //   }
-  // }
 }

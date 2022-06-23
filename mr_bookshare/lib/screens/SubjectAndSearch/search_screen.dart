@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -63,7 +62,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           color: Colors.white,
                         ),
                         SizedBox(
-                          width: 300,
+                          width: 270,
                           child: TextFormField(
                             onChanged: (val) {
                               setState(() {
@@ -154,9 +153,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         },
                         fileUrl: data['FileModel']['url'],
                         downLoadUrl: () {
-                          downLoadFile(
-                              data['FileModel']['url'], data['FileModel']['name']);
-                        }, createdDate: data['FileModel']['createdDate'],
+                          downLoadFile(data['FileModel']['url'],
+                              data['FileModel']['name']);
+                        },
+                        createdDate: data['FileModel']['createdDate'],
                       );
                     }).toList(),
                   );
