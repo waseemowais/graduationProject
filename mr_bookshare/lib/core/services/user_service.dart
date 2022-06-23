@@ -12,7 +12,7 @@ class UserService {
   late CollectionReference collection;
   final collectionName = 'users';
 
-  User? _user;
+
   int statusCode = 0;
   String msg = '';
 
