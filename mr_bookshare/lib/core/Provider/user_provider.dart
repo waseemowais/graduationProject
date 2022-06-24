@@ -6,7 +6,6 @@ import 'package:mr_bookshare/core/Models/user_model.dart';
 import 'package:mr_bookshare/core/services/user_service.dart';
 import 'package:mr_bookshare/core/session_manager/session_manager.dart';
 
-
 class UserProvider extends ChangeNotifier {
   final UserService userService = UserService();
   final String prefsName = 'usersData';
@@ -23,23 +22,6 @@ class UserProvider extends ChangeNotifier {
     }
   }
 
-  UserList get offlineUsers {
-    var data = <UserModel>[];
-    var encodedData = Prefs.getStringListValue(prefsName) ?? [];
-    if (encodedData.isNotEmpty) {
-      var model = UserModel.empty();
-      for (var item in encodedData) {
-        model = UserModel.fromJson(json.decode(item));
-        data.add(model);
-      }
-      UserList finalModel = UserList(users: data);
-      return finalModel;
-    }
-    return UserList(users: []);
-  }
-
-
-
   Future<UserModel> updateUser(String id, UserModel model) async {
     return await userService.updateUser(id, model).whenComplete(() {
       log('update user done');
@@ -51,36 +33,12 @@ class UserProvider extends ChangeNotifier {
     });
   }
 
-  Future<UserModel> getUser(String id)async{
+  Future<UserModel> getUser(String id) async {
     return await userService.getUser(id).whenComplete(() {
       notifyListeners();
       refresh();
-    }).catchError((err){
-      log('$err');
-    });
-  }
-
-  Future<void> deleteUser(String id) async {
-    await userService.deleteUser(id).whenComplete(() {
-      log('delete user done');
-      notifyListeners();
-      refresh();
     }).catchError((err) {
-      log('delete user error : $err');
-    });
-  }
-
-  UserModel findUserByIdOffline(String id) {
-    UserModel model = UserModel.empty();
-    if (offlineUsers.users.isNotEmpty) {
-      model = offlineUsers.users.singleWhere((element) => element.uid == id);
-    }
-    return model;
-  }
-
-  Future<UserModel> findProductByIdOnLine(String id) async {
-    return await userService.getUser(id).catchError((err) {
-      log('find product error : $err');
+      log('$err');
     });
   }
 
@@ -97,16 +55,15 @@ class UserProvider extends ChangeNotifier {
     Prefs.setStringList(prefsName, encodedDataList); // background service
   }
 
-  void refreshModel(UserModel model) async{
-     await Prefs.removeValue('fullName');
-     await Prefs.removeValue('email');
-     await Prefs.removeValue('major');
-     await Prefs.removeValue('imageUrl');
+  void refreshModel(UserModel model) async {
+    await Prefs.removeValue('fullName');
+    await Prefs.removeValue('email');
+    await Prefs.removeValue('major');
+    await Prefs.removeValue('imageUrl');
 
     await Prefs.setStringValue('fullName', model.fullName!);
     await Prefs.setStringValue('email', model.email!);
     await Prefs.setStringValue('major', model.major!);
     await Prefs.setStringValue('imageUrl', model.imageUrl!);
-
-}
+  }
 }

@@ -30,8 +30,6 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context,listen: false);
     var tempUserModel = getUserData();
-    // Map<String, dynamic> userData = {};
-    // userData = UserService().getUserData();
     return FutureBuilder(
         future: userProvider.getUser(tempUserModel.uid!),
         builder: (ctx, snapshot) {

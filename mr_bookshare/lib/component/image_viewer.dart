@@ -7,7 +7,7 @@ class ImageViewerScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 50,horizontal: 15),
+        margin: const EdgeInsets.symmetric(vertical: 50,horizontal: 15),
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Image.network(

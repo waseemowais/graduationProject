@@ -13,10 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/informationview.dart';
 
-
 import 'package:provider/provider.dart';
-
-
 
 // ignore: must_be_immutable
 class ProfileScreen extends StatefulWidget {
@@ -38,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var userProvider = Provider.of<UserProvider>(context, listen: true);
     var tempUserModel = getUserData();
-    if(!uploadState){
+    if (!uploadState) {
       imageUrl = tempUserModel.imageUrl!;
       uploadState = false;
     }
@@ -55,7 +52,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (data == null) {
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(color:Color(0xff069e79) ,),
+                child: CircularProgressIndicator(
+                  color: Color(0xff069e79),
+                ),
               ),
             );
           }

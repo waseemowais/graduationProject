@@ -1,12 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, avoid_print, override_on_non_overriding_member, unnecessary_null_comparison
 
 import 'dart:io';
-import 'dart:isolate';
+
 import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
+
 import 'package:mr_bookshare/Utils/Route/const.dart';
 import 'package:mr_bookshare/component/dialog_view.dart';
 import 'package:mr_bookshare/component/subjectsview.dart';
@@ -30,38 +30,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
   final String collectionName = 'posts';
   Future? resultsLoaded;
   GlobalKey _key = GlobalKey();
-
-  int progress = 0;
-
-  ReceivePort _receivePort = ReceivePort();
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    ///register a send port for the other isolates
-    IsolateNameServer.registerPortWithName(
-        _receivePort.sendPort, "downloading");
-
-    ///Listening for the data is comming other isolataes
-    _receivePort.listen((message) {
-      setState(() {
-        progress = message[2];
-      });
-
-      print(progress);
-    });
-    FlutterDownloader.registerCallback(downloadingCallBack);
-  }
-
-  static downloadingCallBack(id, status, progress) {
-    ///Looking up for a send port
-    SendPort? sendPort = IsolateNameServer.lookupPortByName("downloading");
-
-    ///ssending the data
-    sendPort?.send([id, status, progress]);
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
       ),
       body: Stack(alignment: Alignment.center, children: [
         CustomPaint(
-          child: Container(
+          child: SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
           ),

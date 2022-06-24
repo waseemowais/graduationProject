@@ -8,20 +8,6 @@ import 'package:mr_bookshare/core/session_manager/session_manager.dart';
 class PostProvider extends ChangeNotifier {
   final PostService _postService = PostService();
 
-  // PostList get offlinePots {
-  //   List<PostModel> postList = [];
-  //   var encodedData = Prefs.getListStringValue('postsData') ?? [];
-  //   if (encodedData.isNotEmpty) {
-  //     var model = PostModel();
-  //     for (var item in encodedData) {
-  //       model = PostModel.fromJson(json.decode(item));
-  //       postList.add(model);
-  //     }
-  //     PostList finalModel = PostList(posts: postList);
-  //     return finalModel;
-  //   }
-  //   return PostList(posts: []);
-  // }
 
   Future<PostList> getPosts() async {
     return await _postService.getPosts().whenComplete(() {
@@ -48,14 +34,6 @@ class PostProvider extends ChangeNotifier {
     });
   }
 
-  Future<void> deletePost(String id) async {
-    await _postService.deletePost(id).whenComplete(() {
-      refresh();
-      notifyListeners();
-    }).catchError((error) {
-      log('deleting Post error : $error');
-    });
-  }
 
   void refresh() async {
     await Prefs.removeValue('postsData');

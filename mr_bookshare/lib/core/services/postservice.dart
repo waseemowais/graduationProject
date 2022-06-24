@@ -96,25 +96,6 @@ class PostService {
     return postModel;
   }
 
-  Future<void> deletePost(String id) async {
-    QuerySnapshot querySnapshot = await _firestore
-        .collection(collectionName)
-        .where('id', isEqualTo: id)
-        .get();
-    String documentId = querySnapshot.docs[0].id;
-    await _firestore
-        .collection(collectionName)
-        .doc(documentId)
-        .delete()
-        .whenComplete(() {
-      log('post data deleted successful');
-      statusCode = 200;
-      msg = 'post data deleted successful';
-    }).catchError((error) {
-      handleAuthErrors(error);
-      log('statusCode : $statusCode , error msg : $msg');
-    });
-  }
 
   void handleAuthErrors(ArgumentError error) {
     String errorCode = error.message;

@@ -335,11 +335,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
 }
 //================================check box======================================
 
-class TermsAndConditionsView extends StatelessWidget {
-  const TermsAndConditionsView({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Text("");
-  }
-}
