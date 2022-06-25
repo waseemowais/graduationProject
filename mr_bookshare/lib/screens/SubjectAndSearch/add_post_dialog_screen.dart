@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:developer';
+
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,8 +35,6 @@ class _AddPostDialogState extends State<AddPostDialog> {
   final _subjectName = TextEditingController();
 
   final _description = TextEditingController();
-
-  final _image = TextEditingController();
 
   final PostProvider _postProvider = PostProvider();
 
@@ -192,10 +190,12 @@ class _AddPostDialogState extends State<AddPostDialog> {
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           if (fileName == 'No File Selected') {
+                            // if select file is null : color will be red
                             setState(() {
                               selectFileColor = !selectFileColor;
                             });
                           } else if(task==null){
+                            // if upload file is null : color will be red
                             setState(() {
                               selectFileColor = !selectFileColor;
                             });
@@ -253,7 +253,7 @@ class _AddPostDialogState extends State<AddPostDialog> {
     if (file == null) return;
 
     final fileName = basename(file!.path);
-    log('file name : $fileName');
+
     final destination = 'files/$fileName';
 
     task = FirebaseApi.uploadFile(destination, file!);
@@ -299,7 +299,7 @@ class _AddPostDialogState extends State<AddPostDialog> {
       });
     }
   }
-
+//need review
   Future<void> retrieveLostData() async {
     final LostData response = await picker.getLostData();
     if (response.file != null) {

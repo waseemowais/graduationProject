@@ -19,9 +19,11 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+
+
   var inputText = "";
   final TextEditingController _search2 = TextEditingController();
-  late PostList postList;
+
 
   @override
   Widget build(BuildContext context) {
@@ -171,15 +173,15 @@ class _SearchScreenState extends State<SearchScreen> {
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/$name');
     try {
-      final response = await Dio().get(url,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            receiveTimeout: 0,
-          ));
-      final raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
+      // final response = await Dio().get(url,
+      //     options: Options(
+      //       responseType: ResponseType.bytes,
+      //       followRedirects: false,
+      //       receiveTimeout: 0,
+      //     ));
+      // final raf = file.openSync(mode: FileMode.write);
+      // raf.writeFromSync(response.data);
+      // await raf.close();
       OpenFile.open(file.path);
 
       return file;

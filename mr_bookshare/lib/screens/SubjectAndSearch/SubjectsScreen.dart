@@ -25,10 +25,10 @@ class SubjectScreen extends StatefulWidget {
 }
 
 class _SubjectScreenState extends State<SubjectScreen> {
+
   PostList? postList;
   PostProvider postProvider = PostProvider();
   final String collectionName = 'posts';
-  Future? resultsLoaded;
   GlobalKey _key = GlobalKey();
 
   @override
@@ -120,8 +120,6 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   }
                   postList = data as PostList;
 
-                  // getUsersSnapshot();
-                  // log('$_allResults');
 
                   if (postList!.posts.isEmpty) {
                     return Align(
@@ -215,15 +213,17 @@ class _SubjectScreenState extends State<SubjectScreen> {
     final appStorage = await getApplicationDocumentsDirectory();
     final file = File('${appStorage.path}/$name');
     try {
-      final response = await Dio().get(url,
-          options: Options(
-            responseType: ResponseType.bytes,
-            followRedirects: false,
-            receiveTimeout: 0,
-          ));
-      final raf = file.openSync(mode: FileMode.write);
-      raf.writeFromSync(response.data);
-      await raf.close();
+      // final response = await Dio().get(url,
+      //     options: Options(
+      //       responseType: ResponseType.bytes,
+      //       // to give more than one url
+      //       followRedirects: false,
+      //       //how long to receive data
+      //       receiveTimeout: 0,
+      //     ));
+      // final raf = file.openSync(mode: FileMode.write);
+      // raf.writeFromSync(response.data);
+      // await raf.close();
       OpenFile.open(file.path);
 
       return file;
